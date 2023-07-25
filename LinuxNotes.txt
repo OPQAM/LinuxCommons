@@ -1,0 +1,293 @@
+####################################################################################
+. ls (-l -h -a)             -> List directory
+. cd                        -> Change directory
+. mkdir                     -> Make directory
+. touch                     -> Create blank file
+. cp (-r to copy directory) -> Make copy of file
+. mv                        -> Move/Rename file
+. rm (-r for directories)   -> remove file
+. cat ( | less)             -> list the content of a file
+. tree                      -> see tree structure of directories
+. man                       -> manual for a specific command
+####################################################################################
+/etc/passwd                   -> has all users
+/etc/group                    -> has all groups
+/etc/shadow                   -> has all user (encrypted) passwords
+
+. passwd <user>                 -> change the password of a user
+. adduser <user>                -> add new user
+. deluser <user>                -> remove user
+. deluser <user> --remove-home  -> removes both the user and its homefolder
+. addgroup <group>              -> adds a new group
+. delgroup <group>              -> removes a group
+. adduser <user> <group>        -> adds a user to a group
+. deluser <user> <group>        -> removes user from a group
+. usermod -g <group> <user>     -> changes the primary group of a user
+. id                         -> shows the groups to which the user belongs to
+. init 0                     -> shuts down the machine
+. init 6                     -> restarts the machine
+. chown                    -> alters the ownership of files
+. chown -R <user> <file>   -> changes the owner of the folder and of all its content
+. chown <user>:<group> <file/folder> -> changes both owner and group of the file
+. chgrp                   -> changes the group owner of the file
+. chgrp -R <group> <file> -> changes the group owner of the file and all its content
+. chmod 754 <file>        -> changes the permissions of files/folders
+. chmod -R 660 <file>     -> alters the permissions for the folder and all its content
+####################################################################################
+. *         -> 0 or more characters
+. ?         -> exactly 1 character
+. >         -> output redirection, with overrite
+. >>        -> output redirection, by addition
+. head 5    -> shows the firts 5 lines of the file
+. tail 12   -> shows the last 12 lines of the file
+. sort            -> orders the file
+. wget <URL> -O <file>   -> downloads the content of the URL and saves it
+####################################################################################
+                                      -SSH-
+
+Installing:
+. apt install ssh
+. apt install openssh-server             (on older distros)
+
+Configuration:
+. vim /etc/ssh/sshd_config               (remember your backups)
+-------------------------------------------------
+port 22
+
+AllowUsers <user>                     -> users that can access the system via SSH
+DenyUsers <user1> <user2>             -> users that are forbidden from doing so
+
+AllowGroups <group1> <group2>         -> groups that can access the system via SSH
+DenyGroups <group1> <group2>          -> groups that are forbidden from doing so
+
+# Avoid using AlloUsers and AllowGroups at the same time!
+
+PermitRooLogin YES         -> to allow root access via SSH (from prohibit-password)
+-------------------------------------------------
+
+. systemctl restart ssh -> SSH restart, so that configuration changes can take place
+. systemctl status ssh  -> to check if SSH is working without issues
+. journalctl -x         -> to detect which error caused the issue
+
+SSH CONNECTION:
+
+ssh <username>@<IP> -p <port>       -> (lowercase p)
+
+SCP FILE TRANSFER:
+
+. scp -P <port> <file> <HisUser>@<ip>:/<destination> -> from our to their machine
+. scp -P <port> <HisUser>@<ip>:/<file> <destination> -> from their machine
+. scp -P <port> <MyUser>@<ip>:/<file> <destination>  -> (there) receive from mine
+. scp -P <port> <file> <MyUser>@<ip>:/<destination>  -> (there) send to mine
+####################################################################################
+                                       -FTP-
+
+Installation:
+
+. apt install vsftp
+
+Configuration:
+
+. vim /etc/vsftpd.conf                  (remember your backups)
+-------------------------------------------------
+listen_port=993               -> the default value is 21, but we should change this
+
+write_enable=YES    -> so that users can also upload, not just download
+
+chroot_local_user=YES     -> locks users inside their own homefolder when using FTP
+allow_writeable_chroot=YES   -> lets users upload and download in their homefolder
+
+chroot_list_enable=YES       -> allows some users to not be restricted by the chroot
+chroot_list_file=/etc/<filename>  -> specifies the file to tell which users
+
+# That specific file only contains the names of said users
+-------------------------------------------------
+
+. systemctl restart vsftpd         -> FTP system restart
+. systemctl status vsftpd          -> FTP system check
+. journalctl -xe                   -> error check
+
+Encryption:
+
+. cd /etc/ssl/private
+. openssl req -x509 -nodes -newkey rsa:2048 -keyout <file> -out <file> -days 365
+
+(we are creating a self-signed certificate, valid for 365 - explanation:
+req              -> creating and processing cert signing requests CSRs...
+-x509            -> tells OpenSSL that we want a self-signed cert, not a CRS
+-nodes           -> we don't want to encrypt the private key
+-newkey rsa:2048 -> generate a RSA private key with the size of 2048bits
+-keyout <file>   -> where the private key will be stored
+-out <file>      -> where the self-signed cert will be stored
+-days 365        -> validity period. After this, the cert will expire
+
+.chmod 600 <file>  -> change the permissions of the certificate
+
+#final changes to the /etc/vsftpd.conf:
+-------------------------------------------------
+rsa_cert_file=etc/ssl/private/<file>
+rsa_private_key_file=/etc/ssl/private/<file>
+ssl_enable=YES
+ssl_ciphers=HIGH
+ssl_tlsv1=YES
+ssl_sslv2=NO
+ssl_sslv3=NO
+force_local_data_ssl=YES
+force_local_logins_ssl=YES
+-------------------------------------------------
+#Now we can securely use FTP
+####################################################################################
+                             -Network Configuration-
+
+#Networks Interface Cards are identified by the system with the name enpXsY
+# en         -> ethernet
+# p          -> pci card. There are also o (onboard) or s (pci express)
+# X          -> bus
+# Y          -> the occupied slot
+
+. ip addr            -> identify all available network interface cards
+. ls /sys/class/net  -> fulfill the same purpose
+. ifconfig           -> will do the same, but we have to install the net-tools app
+
+. /etc/network/interfaces    -> we can check how the interface cards are working
+
+. ifdown enp0s3      -> disable the enp0s3 nic
+. ifup enp0s3        -> activate it
+
+. dhclient -r enp0s3   -> release the current ip
+. dhclient enp0s3      -> request a new ip
+
+. ip route (or ip r)     -> check the current gateway address
+. cat/etc/resolv.conf    -> check the DNS addresses
+
+. ip address add 192.168.0.44/24 dev enp0s8   -> this sets the ip (temporarily)
+. ip route add default via 192.168.27.223     -> configure the default gateway
+
+.ip addr flush enp03   -> flushing the current definitions without restarting
+
+. apt install resolvconf  -> app to definitely set the ip
+
+. /etc/network/interfaces
+-------------------------------------------------
+allow-hotplug enp0s3
+iface enp0s3 inet static   -> change here to static
+address 192.168.27.249
+netmask 255.255.255.0
+gateway 192.168.27.222
+dns-nameservers 8.8.8.8 8.8.4.4
+-------------------------------------------------
+
+. ifdown enp0s3
+. ifup enp0os3           -> these two commands so that the ip changes
+
+#In order to add an extra interface card, 
+#we need to add it in the VM and restart the machine
+#Then we'll need to check the name given with:
+.ip addr
+#Then we'll need to change the /etc/network/interfaces 
+#so that this new nic can be recognized
+-------------------------------------------------
+allow-hotplug enp0s8
+iface enp0s8 inet static
+address 192.168.27.253
+netmask 255.255.255.0
+-------------------------------------------------
+####################################################################################
+                                 -File Compression-
+
+TAR (Grouping)
+. tar cvf /<file.tar> <files.txt> <folders>  -> groups files or folder (no compress)
+. tar xvf <file.tar>                         -> extracts archived tar file
+. tar xvf <file.tar> -C /location/           -> extract to the specified location
+. tar rvf <file.tar> <other files to be added> -> adds a file or folder to a tar
+
+TAR (Compressing)
+. tar zcvf <file.tar.gz> <files.txt> <folders> -> The same to all commands. Add 'z'
+. tar zxvf <file.tar.gz> -C /location/         -> extract to the specified location
+. tar tvf <file.tar (or tar.gz)>    -> list the contents of the '.tar' or '.gz' file
+
+GZIP (no grouping by itself - it compresses)
+
+- Gzip is exclusively used by files, not folders
+
+. gzip <files_to_be_compressed>
+. -d <files.tar.gz>                 -> several files to decompress at the same time
+. gzip -k <files to be decompressed>   -> keeping a copy of the original files
+
+ZIP
+. zip <files.zip> <files to compress>     -> basic syntax
+. unzip <files.zip>                       -> uncompress the file
+. zip -sf files.zip                       -> List the content of a zipped file
+. zip -t /</folder/zip.file> </folder/>  -> To compress a folder and all its content
+####################################################################################
+                                      -Find-
+
+. find . -name ficheiro.txt  -> search for files and folders from the current folder
+. find /home -iname ficheiro.txt  -> case insensitive search in the /home folder
+
+. find / -type d -name Coisa      -> 'd' lets us search for folders only
+. find / -type f -iname "*.txt" -> 'f' searches for files only. Wildcards=>brackets
+
+. find /home -type f -perm 0777   -> searching files by their permissions
+. find / -user root -name ".bin"  -> find files and folders by their owner
+. find / -group ATEC              -> find files and folders by group of users
+
+. find / -mmin -60                -> searching for files used in the last hour
+
+. find / -size +50M               -> searching for files bigger than 50Mb
+. find / -size +50M -size -100M   -> smaller than 100Mb and bigger than 50Mb
+
+. find / -maxdepth 4 -name "*.md" -> searching for files down to a depth of 4 steps
+####################################################################################
+                                      -Grep-
+
+. grep grsi /etc/passwd    -> searching for the word 'grsi' inside the file 'passwd'
+. grep -w grsi /etc/paswd            -> same, but looking for the whole word
+. grep "grsi is the" /etc/passwd     -> expression search
+. grep -i thing /home/grsip/atec.txt -> 'i' makes the search case insensitive
+. grep -r root /etc               -> search within a folder (and all its subfolders)
+. grep -v nologin /etc/passwd        -> search all lines where the word isn't present
+. grep ^coisa /etc/passwd    -> search for all lines that start with the word 'coisa'
+. grep coisa$ /etc/passwd            -> ditto, but ending in the word 'coisa'
+####################################################################################
+                                      -Tee-
+
+		----------------------
+			  |
+	One entry ->	  |
+			  |
+			  |
+      <-------		  |	       ------>
+	Two exits		Two exits
+
+. ls -l | tee file1.txt file2.txt (write 'ls -l' in the files and also prints)
+. ls -hal | tee -a file1.txt file2.txt (append to the files)
+####################################################################################
+                                      -History-
+
+. history              -> check all commands entered in the Linux shell by the user
+. history 50           -> check the last 50 commands
+. !230                 -> repeat the command number 230
+
+Note: all commands are saved inside the file .bash_history in the user's homefolder
+      logging off or rebooting will add this session's commands to that file
+####################################################################################
+                                        -Alias-
+
+. alias lst_detail="ls -hal"  -> creates the command 'lst_details' doing: 'ls -hal'
+
+Note: these commands are volatile and thus will perish upon a system reboot.
+to make them permanent we must add them to the file .bashrc 
+(inside the user's home folder)in order for the change to take, we need to logout
+####################################################################################
+                                  -Soft & Hard Links-
+
+. ln -s /file.txt /home/user/file_softLink.txt  -> creates a Soft Link
+
+. ln /file.txt /home/user/file_hardLink.txt     -> same, but creates a Hard Link
+
+Note: Soft Links are much like Windows shortcuts, 
+pointing directly to the file or folder.
+Hard Links point towards the space that the file occupies on the drive. We can use
+Hard Links as backups, making it harder for a file to be accidentally deleted
+####################################################################################
