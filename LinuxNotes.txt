@@ -291,3 +291,50 @@ pointing directly to the file or folder.
 Hard Links point towards the space that the file occupies on the drive. We can use
 Hard Links as backups, making it harder for a file to be accidentally deleted
 ####################################################################################
+                                   -Crontab-
+
+0-59	0-23	1-31	1-12	0-6		(0 = Sunday & 7 = Sunday)
+Min	Hour	DOM	MON	DOW	cmd 
+
+DOM -> Day of Month
+MON -> Month
+DOW -> Day of Week
+cmd -> Command
+
+-> Events will happen in a cycle
+-> use '*' for empty values (means 'Any')
+
+Exs:
+
+Min	Hour	DOM	MON	DOW	cmd
+30	17	*	*	*	rm -r /tmp/*         (every day at 17:30)
+30	0	*	12	*	........             (Dezembro às 00:30)
+0	0	1-15,20,25	12	* 	........     (1 a 15, 20, 25, Dez)
+0	12	*	12	1-5	........             
+12	12	20-25	1-10	6	........ 
+(!!! Neste caso é um 'V' todos os dias de 20 a 25 e todos os sábados)
+0	10,20	*	*	*	........
+*	20	*	*	*	0,6	...... (minuto a minuto)
+30	*	*	*	0,4,6	........
+*/15	*	*	10	*	....... (/ -> de 15 em q5 minutos)
+*	9-18/3	*	*	*	....... (de 3 em 3 horas, das 9 às 18)
+
+. crontab -e          -> Open crontab and add cron jobs to it
+. crontab -r          -> Delete current crontab
+. crontab -l          -> See current crontab
+. select-editor       -> trocar editor crontab
+. crontab -e -u john  -> Edit crontab for the user 'john'
+
+-> guardado em: /var/spool/cron/crontabs (não é preciso ver)
+-> começa a anotar/correr comandos à primeira unidade (ex: minuto)
+-> se não é posto a posição do ficheiro de destino, escreve na homefolder do user
+-> Echo não funciona. Não há output
+
+-> idea: 
+. grep cron /var/log/syslog | tail -10 (por exemplo - últimos comandos de crontab)
+. touch /etc/cron.allow     -> selectionar os que podem aceder ao crontab
+(se vazio, ninguém exceto o root pode aceder)
+-> mesma ideia com o cron.deny (os que não podem aceder)
+-> o cron.allow, se existir, faz com que o sistema não olhe para o cron.deny(!)
+####################################################################################
+
