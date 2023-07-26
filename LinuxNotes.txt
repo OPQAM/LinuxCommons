@@ -336,5 +336,6 @@ Min	Hour	DOM	MON	DOW	cmd
 (se vazio, ninguém exceto o root pode aceder)
 -> mesma ideia com o cron.deny (os que não podem aceder)
 -> o cron.allow, se existir, faz com que o sistema não olhe para o cron.deny(!)
+   Se estiver vazio, ninguém tem acesso a não ser o root(!)
 ####################################################################################
 
