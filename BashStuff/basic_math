@@ -1,0 +1,14 @@
+#!/bin/bash
+
+
+# simple math (expressions):
+
+expr 3 + 4              # addition
+expr 4 - 5              # subtraction
+expr 70 / 8             # division(floor)
+expr 5 \* 8             # multiplication. Can't use '*' -> Wildcard
+
+numb1=3
+numb2=33
+
+expr $numb1 / $numb2    # => 0. Floored to a number lower than 1

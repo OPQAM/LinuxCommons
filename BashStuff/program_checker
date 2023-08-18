@@ -1,0 +1,16 @@
+#!/bin/bash
+
+command=/usr/bin/htop
+
+if [ -f $command  ]
+then
+	echo "$command is available. Let's run it."
+	sleep 2 # waiting for 2 seconds before moving on
+else
+	echo "$command isn't available. Let's install it."
+	sleep 2
+	sudo apt update && sudo apt install -y htop # the '-y' automatically answers 'yes'
+fi
+
+
+$command # run the command

@@ -1,0 +1,24 @@
+#!/bin/bash
+
+# Subshells:
+files=$(ls) # ran in terminal - this is the output of the ls command
+now=$(date)
+
+echo "The system time and date is:"
+echo $now
+
+echo "Your username is: $USER" # the USER variable is already present, of course
+
+# echo $files # this returns the result of ls
+
+####################################################################################
+# 1st Script:
+# Simple variable creation
+# myname="Ricardo Alves"
+# myage=45
+# mywife="Renata"
+#
+#
+# calling a variable, with a $
+# echo "My name is $myname, I'm $myage, and my wife is called $mywife. Hello World!"
+####################################################################################

@@ -1,0 +1,27 @@
+#!/bin/bash
+
+directory=/etc
+
+if [ -d $directory  ]
+then
+	# if the exit code was tested here, it wouldn't be 0
+	# for non-existent directories (/etc will return 0)
+	echo "The directory $directory exists."
+else
+	echo "The directory $diectory doesn't exist."
+fi
+
+echo "The exit code for this script run is $?"
+
+    # in this case we'll always have an exit code of 0
+    # The echo statement ran fine, so exit code = 0
+    #
+    # Let's force the exit code to be a certain value:
+
+echo "Hello World!"
+exit 13
+echo $?         # This simply won't run.
+
+				# In fact, the script will stop on exit
+				# And get the exit code 13. The next
+				# line will never run.

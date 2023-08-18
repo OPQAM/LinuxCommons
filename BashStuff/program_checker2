@@ -1,0 +1,20 @@
+#!/bin/bash
+
+program=htop
+
+if command -v $program
+then
+	echo "$program is available, let's run it."
+	sleep 2
+else
+	echo "$program isn't available, let's install it."
+	sleep 2
+	sudo apt update && sudo apt install -y $program
+fi
+
+$program
+
+# [ ] in if are on't used for the test command
+# the command 'command' checks for the existence of a command
+# so 'command -v htop' => /usr/bin/htop (meaning it's present)
+

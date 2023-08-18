@@ -1,0 +1,22 @@
+#!/bin/bash
+
+somenumber=322
+
+if [ ! $somenumber -eq 322  ]      # The '!' is basically a 'not'
+then
+	echo "The condition is true."
+else
+	echo "The condition is false."
+fi
+
+# -eq -> Equal
+# -ne -> Not Equal
+# -gt -> Greater Than
+# -
+
+if [ -f ~/myfile ]    # Check to see if file exists (-d for directory)
+then
+	echo "The file exists."
+else
+	echo "The file doesn't exist."
+fi

@@ -1,0 +1,18 @@
+#!/bin/bash
+
+directory=/etc # alternatively, to test: '/nonfolder'
+
+if [ -d $directory ]
+then
+	e_code=$?
+	echo "The directory $directory exits."
+	echo "The exit code for this script is $e_code."
+	exit 0 # By creating exit codes we control the 'error messages'
+else
+	e_code=$?
+	echo "The directory $directory doesn't exist."
+	echo "The exit code for this script is $e_code."
+	exit 1
+fi
+
+echo "Well, unless you read the code, you'll never read this."
