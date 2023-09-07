@@ -339,6 +339,8 @@ Min	Hour	DOM	MON	DOW	cmd
 -> mesma ideia com o cron.deny (os que não podem aceder)
 -> o cron.allow, se existir, faz com que o sistema não olhe para o cron.deny(!)
    Se estiver vazio, ninguém tem acesso a não ser o root(!)
+
+Nota: &&, ||, ;
 ####################################################################################
 				-At-
 
@@ -378,6 +380,5 @@ Min	Hour	DOM	MON	DOW	cmd
 
 ####################################################################################
 
-
-
-
+Note: Debian 12 doesn't have /var/log/syslog
+ We can check logs in, for example, journalctl -u cron 
