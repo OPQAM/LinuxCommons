@@ -46,6 +46,7 @@
                                       -SSH-
 
 Installing:
+
 . apt install ssh
 . apt install openssh-server             (on older distros)
 
@@ -307,6 +308,7 @@ cmd -> Command
 Exs:
 
 Min	Hour	DOM	MON	DOW	cmd
+
 30	17	*	*	*	rm -r /tmp/*         (every day at 17:30)
 30	0	*	12	*	........             (Dezembro às 00:30)
 0	0	1-15,20,25	12	* 	........     (1 a 15, 20, 25, Dez)
@@ -338,6 +340,34 @@ Min	Hour	DOM	MON	DOW	cmd
 -> o cron.allow, se existir, faz com que o sistema não olhe para o cron.deny(!)
    Se estiver vazio, ninguém tem acesso a não ser o root(!)
 ####################################################################################
+				-At-
+
+# This, much like crontab, is used to create jobs. But unlike crontab, it will leave
+# no trace. Meaning that after a job is fulfilled, its command gets deleted
+
+# Examples:
+
+. at now + 15 min
+. at 12:00
+. at 15:23 1 jun 2024
+. at 12:00 5/24/2024      -> Mês/Dia/Ano
+. at 14:33 THU
+
+# Then we introduce commands
+> <commands>
+
+# And exit
+> (ctrl + D)
+
+. atq    -> Que tarefas existem (alternativamente at -l)
+. at -c <número>   -> ver comandos da tarefa <número>
+. atrm <número>     -> eliminar tarefa <número> (alternativamente at -r)
+
+# em vez de /etc/cron.allow há o /etc/at.allow
+# se allow existir, o deny é negado (como com o crontab)
+# at.deny existe by default - e nega a utilização a todos os utilizadores do sistema mas que não fazemos login com eles (os outros users todos que não os utilizáveis)
+
+####################################################################################
 				-Exit Codes-
 
 . echo $?        -> Retuns exit code. If '0' all is ok.
@@ -345,5 +375,9 @@ Min	Hour	DOM	MON	DOW	cmd
 # Scripts usually run on a schedule and without human supervision 24/7, 
 # so it's a good idea to have exit codes inform us if something went wrong.
 # So we can, for example, upon getting a non 0 value, email the sysadmin.
+
+####################################################################################
+
+
 
 
