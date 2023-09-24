@@ -1,14 +1,18 @@
+
+##				Linux Basic Commands
+
+
 ####################################################################################
-. ls (-l -h -a)             -> List directory
-. cd                        -> Change directory
-. mkdir                     -> Make directory
-. touch                     -> Create blank file
-. cp (-r to copy directory) -> Make copy of file
-. mv                        -> Move/Rename file
-. rm (-r for directories)   -> remove file
-. cat ( | less)             -> list the content of a file
-. tree                      -> see tree structure of directories
-. man                       -> manual for a specific command
+**'ls (-l -h -a)'**             -> List directory
+**'cd'**                        -> Change directory
+**'mkdir'**                     -> Make directory
+**'touch'**                     -> Create blank file
+**'cp (-r to copy directory)'** -> Make copy of file
+**'mv'**                        -> Move/Rename file
+**'rm (-r for directories)**   -> remove file
+**'cat ( | less)**             -> list the content of a file
+**'tree**                      -> see tree structure of directories
+**'man**                       -> manual for a specific command
 ####################################################################################
 /etc/passwd                   -> has all users
 /etc/group                    -> has all groups
@@ -80,12 +84,14 @@ SCP FILE TRANSFER:
 . scp -P <port> <HisUser>@<ip>:/<file> <destination> -> from their machine
 . scp -P <port> <MyUser>@<ip>:/<file> <destination>  -> (there) receive from mine
 . scp -P <port> <file> <MyUser>@<ip>:/<destination>  -> (there) send to mine
+
+*** Só é preciso na máquina de DESTINO ***
 ####################################################################################
                                        -FTP-
 
 Installation:
 
-. apt install vsftp
+. apt install vsftpd
 
 Configuration:
 
@@ -342,7 +348,7 @@ Min	Hour	DOM	MON	DOW	cmd
 
 Nota: &&, ||, ;
 ####################################################################################
-				-At-
+				-at-
 
 # This, much like crontab, is used to create jobs. But unlike crontab, it will leave
 # no trace. Meaning that after a job is fulfilled, its command gets deleted
@@ -381,4 +387,51 @@ Nota: &&, ||, ;
 ####################################################################################
 
 Note: Debian 12 doesn't have /var/log/syslog
- We can check logs in, for example, journalctl -u cron 
+ We can check logs in, for example, journalctl -u cron
+
+####################################################################################
+				-rsync-
+
+# A utility for efficiently transferring and synchronizing files between a computer and a storage drive and accross networked computers by comparing the modification times and sizes of files.
+
+-> rsync <option> <file_to_copy_from> <user@>host:dest
+
+
+-r - recursivo (não preserva timestamp - fica com data da transferência)
+-v - verbose
+-a - archive mode (preserva o timestamp)
+-d - comprimir e descomprimir automaticamente (origem e destino)
+-h - human-readable
+
+EX: 
+. rsync -avzh /dados/ grsip@192.168.1.205:    (vai para a home do user)
+- no ficheiro recebido estará a data de transmissão dos dados(? - verificar)
+NOTA: sem a barra, copia a pasta E O CONTEÚDO
+Ou seja, rsync -avzh /dados grsip@192.168.1.205:
+
+Receber ficheiros. Ex:
+
+. rsync -avzh root@192.168.1.205:/file_grsip.tar.gz ./   -> para a pasta atual
+
+Crontab(!): não dá para fazer coisas em foreground (ergo, nada de por passwords).
+Solução: user sem password -> estabelecer connexão de sgurança - apenas de uma máquina para a outra - apenas num sentido e entre 2 utilizadores. Só neste sentido e com estes utilizadores não precisa de palavra passe. Qualquer outro sentido ou users, pede pass.
+
+Precisamos de chave RSA!
+
+. ssh-keygen -t rsa     -> criada a chave (sem pass-phrase)
+. ssh-copy-id -i .ssh/id_rsa.pub grsip@192.168.1.205 -> não é preciso caminho
+
+Agora a outra máquina tem a chave pública do outro lado.
+
+Teste connexão:
+.ssh grsip@192.168.1.205       -> login direto sem palavra-passe
+ 
+Nota: porta:
+rsync -avzh -e "ssh -p9000" root@192.168.1.205:/file_grsip.tar.gz ./
+
+PASSAR A LIMPO!
+
+####################################################################################
+
+
+
