@@ -13,7 +13,7 @@ Documentation
 # Created the user, and added passwords to both user and root
 
 # Made sure all is up to date (updates automatically with -y)
-- apt update -y && apt upgrade
+- apt update -y && apt upgrade -y
 
 # Installed Vim, a I prefer it over nano
 - apt install vim
@@ -46,7 +46,7 @@ AllowUsers <my_user>
 # But we also have to edit 'PermitRootLogin prohibit-password' to
 # 'PermitRootLogin yes'. I'm not doing that right now.
 
-#After having done this, we should guarantee there are no extra spaces
+# After having done this, we should guarantee there are no extra spaces
 # Save our configuration (Esc + :wq + enter)
 # And restart the service
 - systemctl restart ssh
@@ -108,9 +108,9 @@ AllowUsers <my_user>
 # Installing vsftpd and adding it to version control + extra backup
 - apt install vsftpd
 - cd /home/my_user/dotfiles
-- ln -s /etc/vsftpd.conf
+- ln /etc/vsftpd.conf
 - git add vsftpd.conf
-- git commit -m "Added symbolic link to vsftpd.conf"
+- git commit -m "Added hard link to vsftpd.conf"
 - cp /etc/vsftpd.conf /etc/vsftpd.BAK
 
 # Changing port number (on a new line)
@@ -127,6 +127,10 @@ allow_writeable_chroot=YES
 # Setting which users have access to all + which file decides that
 chroot_list_enable=YES
 chroot_list_file=/etc/vsftpd.chroot_list
+
+# Restarting the service and checking the status
+- systemctl restart vsftpd
+- systemctl status vsftpd
 
 # Edditing the list
 - vim /etc/vsftpd.chroot_list
@@ -165,6 +169,35 @@ force_local_logins_ssl=YES
 - systemctl status vsftpd
 
 # We now can access in a more secure fashion, using FTP
+
+----------------------------------------------------------------------
+
+# Adding an SSH Agent, in order to have the SSH passphrase asked only once, per session
+# Checking if an agent is running. If it isn't, a new one will start
+
+- eval "$(ssh-agent -s)"
+
+# Adding our SSH (private) key to the agent
+
+- ssh-add /root/.ssh/id_rsa
+
+# Note: take care not to enter the system-wide pairs at /etc/ssh. We want the pairs that are inside our home folder (in this case, the root's).
+
+# Verify that the keys have been added
+
+- ssh-add -l
+
+# Configure the SSH client (this should be working by default, but it doesn't hurt). Edit or create the file ~/.ssh/config
+
+Host *
+    AddKeysToAgent yes
+
+# Making sure that the file has the correct permissions (readable only by this user)
+
+- chmod 600 ~/.ssh/config
+
+# And that's it. Now the Agent will request once and never again until the terminal restarts.
+
 
 ----------------------------------------------------------------------
 
