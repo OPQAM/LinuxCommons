@@ -74,8 +74,8 @@ AllowUsers <my_user>
 - mkdir /home/my_user/dotfiles
 
 # In order to have a dotfiles folder controlling files outside of that
-# folder, we need to use symbolic links (to the file we want)
-- ln -s /etc/ssh/sshd_config sshd_config
+# folder, we need to use hard links (to the file we want)
+- ln /etc/ssh/sshd_config sshd_config
 
 # Adding our specific file to our dotfiles folder
 - git init
