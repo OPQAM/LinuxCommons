@@ -80,7 +80,7 @@ AllowUsers <my_user>
 # Adding our specific file to our dotfiles folder
 - git init
 - git add sshd_config
-- git commit -m "Added symbolic link to sshd_config"
+- git commit -m "Added link to sshd_config"
 
 # Checking if all is correct with status and logs(git hash here)
 - git status
