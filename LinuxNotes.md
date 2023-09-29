@@ -1,8 +1,6 @@
 
 ## **Linux Commands**
 
-
-
 ### Basic Commands
 
 |**Command**    | **Description**       |
@@ -17,8 +15,7 @@
 |rm             |remove file            |
 |cat            |list contents of file  |
 |tree           |see directory structure|
-|man            |check the manual
-
+|man            |check the manual       |
 
 ### Important Folders
 
@@ -28,7 +25,7 @@
 |/etc/group     |has all groups         |
 |/etc/shadow    |has user userpasswords |
 
-		
+
 ### Other Commands
 
 > **. passwd <user\>** ... *(change the password of user)*
@@ -86,6 +83,7 @@
 |\>           |output redirection (overrite)|
 |\>\>         |output redirection (append)  |
 
+
 ### SSH
 
 #### Installation:
@@ -95,24 +93,30 @@
 #### Configuration:
 
 	. vim /etc/ssh/sshd_config     (remember your backups)
- 
+
 ---
+---
+(*sshd_config* file)
 
 **port 22**
 
-**AllowUsers <user\>** ... *(users that can access the system via SSH)*
+***AllowUsers <user\>** ... (users that can access the system via SSH)*
 
-**DenyUsers <user1\> <user2\>** ... *(users that are forbidden from doing so)*
+***DenyUsers <user1\> <user2\>** ... (users that are forbidden from doing so)*
 
-**AllowGroups <group1\> <group2\>** ... *(groups that can access the system via SSH)*
+***AllowGroups <group1\> <group2\>** ... (groups that can access the system via SSH)*
  
-**DenyGroups <group1\> <group2\>** ... *(groups that are forbidden from doing so)*
+**DenyGroups <group1\> <group2\>** ... (groups that are forbidden from doing so)*
 
-**PermitRooLogin YES** ... *(to allow root access via SSH)*
+***PermitRooLogin YES** ... (to allow root access via SSH)*
 
 **Note:** *do not use **AlloUsers** and **AllowGroups** simultaneously!*
 
 ---
+---
+
+
+<br>
 
 > **. systemctl restart ssh** ... *(SSH restart, so that configuration changes can take place)*
 >
@@ -120,9 +124,11 @@
 >
 > **. journalctl -xe** ... *(error check: if necessary. Watch for white spaces)*
 
+
 ### SSH Connection:
 
 > **ssh <username\>@<IP\> -p <port\>** ... *(lowercase p)*
+
 
 ### SCP (Secure Copy Protocol) File Transfer:
 
@@ -134,7 +140,7 @@
 >
 > **. scp -P <port\> <file\> <MyUser\>@<ip\>:/<destination\>** ... *(send from remote machine 2 to my machine 1)*
 
-**note:** *you only need SSH at the machine you are trying to connect to.*
+**note:** *we only need SSH at the machine we are trying to connect to.*
 
 
 ### FTP (File Tranfer Protocol)
@@ -146,28 +152,35 @@
 #### Configuration:
 
 	. vim /etc/vsftpd.conf                  (remember your backups)
- 
+
 ---
+---
+(*vsftpd.conf* file)
 
-**listen_port=X** ... *(the X default value is 21, but we should change this)*
+***listen_port=X** ... (the X default value is 21, but we should change this)*
 
-**write_enable=YES** ... *(so that users can also upload, not just download9*
+***write_enable=YES** ... (so that users can also upload, not just download9*
 
-**chroot_local_user=YES** ... *(locks users inside their own homefolder when using FTP)*
+***chroot_local_user=YES** ... (locks users inside their own homefolder when using FTP)*
 
-**allow_writeable_chroot=YES** ... *(lets users upload and download in their homefolder)*
+***allow_writeable_chroot=YES** ... (lets users upload and download in their homefolder)*
 
-**chroot_list_enable=YES** ... *(allows some users to not be restricted by the chroot)*
+***chroot_list_enable=YES** ... (allows some users to not be restricted by the chroot)*
 
-**chroot_list_file=/etc/<filename\>** ... *(specifies the file to tell which users)*
+***chroot_list_file=/etc/<filename\>** ... (specifies the file to tell which users)*
 
 *(That specific file only contains the names of said users)*
 
 ---
+---
+
+
+<br>
 
 > **. systemctl restart vsftpd** ... *(FTP system restart)*
 > 
 > **. systemctl status vsftpd** ... *(FTP system check)*
+
 
 #### Encryption:
 
@@ -175,11 +188,12 @@
 >
 > **. openssl req -x509 -nodes -newkey rsa:2048 -keyout <file\> -out <file\> -days 365**
 >
-> **.chmod 600 <file\>** ... *(change the permissions of the certificate)*
+> **. chmod 600 <file\>** ... *(change the permissions of the certificate)*
 
-*(we are creating a self-signed certificate, valid for 365 - explanation)*
+We are creating a self-signed certificate, valid for 365 days.
 
 |**Entry**      |**Explanation**                                         |
+|---------------|--------------------------------------------------------|
 |req            |creating and processing cert signing requests CSRs...   |
 |x509           |tells OpenSSL that we want a self-signed cert, not a CRS|
 |nodes          |we don't want to encrypt the private key                |
@@ -188,28 +202,44 @@
 |out <file\>    |where the self-signed cert will be stored               |
 |days 365       |validity period. After this, the cert will expire       |
 
+
 > **vim /etc/vsftpd.conf**
 
 ---
+---
+(*vsftpd.conf* file)
+
 *(these can be found, and added to, at about line 150)*
 
-**rsa_cert_file=etc/ssl/private/<file\>**
-**rsa_private_key_file=/etc/ssl/private/<file\>**
-**ssl_enable=YES**
-**ssl_ciphers=HIGH**
-**ssl_tlsv1=YES**
-**ssl_sslv2=NO**
-**ssl_sslv3=NO**
-**force_local_data_ssl=YES**
-**force_local_logins_ssl=YES**
+***rsa_cert_file=etc/ssl/private/<file\>***
 
+***rsa_private_key_file=/etc/ssl/private/<file\>***
+
+***ssl_enable=YES***
+
+***ssl_ciphers=HIGH***
+
+***ssl_tlsv1=YES***
+
+***ssl_sslv2=NO***
+
+***ssl_sslv3=NO***
+
+***force_local_data_ssl=YES***
+
+***force_local_logins_ssl=YES***
+
+---
 ---
 
 **Note:** *Now we can securely use FTP.*
 
+<br>
+
+
 ### NETWORK CONFIGURATION
 
-*Networks Interface Cards are identified by the system with the name enpXsY*
+*Networks Interface Cards are identified by the system with the name enpXsY (ex: **enp0s3**)*
 
 	en         (ethernet)
 	p          (pci card; o = onboard; s = pci express)
@@ -247,15 +277,26 @@
 **vim /etc/network/interfaces** ... *(we can check here how the interface cards are working)*
 
 ---
+---
+(*interfaces* file)
 
-**allow-hotplug enp0s3**
-**iface enp0s3 inet static**   *(change here to static)*
-**address 192.168.27.249**
-**netmask 255.255.255.0**
-**gateway 192.168.27.222**
-**dns-nameservers 8.8.8.8 8.8.4.4**
+***allow-hotplug enp0s3***
+
+***iface enp0s3 inet static**   (change here to static)*
+
+***address 192.168.27.249***
+
+***netmask 255.255.255.0***
+
+***gateway 192.168.27.222***
+
+***dns-nameservers 8.8.8.8 8.8.4.4***
 
 ---
+---
+
+
+<br>
 
 > **. ifdown enp0s3**
 >
@@ -269,13 +310,22 @@ Finally, we'll have to edit once more the **/etc/network/interfaces** file.
 Only then will the NIC be recognized.
 
 ---
+---
+(*interfaces* file)
 
-**allow-hotplug enp0s8**
-**iface enp0s8 inet static**
-**address 192.168.27.253**
-**netmask 255.255.255.0**
+***allow-hotplug enp0s8***
+
+***iface enp0s8 inet static***
+
+***address 192.168.27.253***
+
+***netmask 255.255.255.0***
 
 ---
+---
+
+
+<br>
 
 ### FILE COMPRESSION
 
@@ -395,152 +445,154 @@ Only then will the NIC be recognized.
 *Also, in order for the change to take, we need to logout.*
 
 
-####################################################################################
-                                  -Soft & Hard Links-
+### SOFT & HARD LINKS
 
-. ln -s /file.txt /home/user/file_softLink.txt  -> creates a Soft Link
+> **. ln -s /file.txt /home/user/file_softLink.txt** ... *(creates a Soft Link)*
+>
+> **. ln /file.txt /home/user/file_hardLink.txt** ... *(same, but creates a Hard Link)*
 
-. ln /file.txt /home/user/file_hardLink.txt     -> same, but creates a Hard Link
-
-Note: Soft Links are much like Windows shortcuts, 
-pointing directly to the file or folder.
-Hard Links point towards the space that the file occupies on the drive. We can use
-Hard Links as backups, making it harder for a file to be accidentally deleted
-####################################################################################
-                                   -Crontab-
-
-0-59	0-23	1-31	1-12	0-6		(0 = Sunday & 7 = Sunday)
-Min	Hour	DOM	MON	DOW	cmd 
-
-DOM -> Day of Month
-MON -> Month
-DOW -> Day of Week
-cmd -> Command
-
--> Events will happen in a cycle
--> use '*' for empty values (means 'Any')
-
-Exs:
-
-Min	Hour	DOM	MON	DOW	cmd
-
-30	17	*	*	*	rm -r /tmp/*         (every day at 17:30)
-30	0	*	12	*	........             (Dezembro às 00:30)
-0	0	1-15,20,25	12	* 	........     (1 a 15, 20, 25, Dez)
-0	12	*	12	1-5	........             
-12	12	20-25	1-10	6	........ 
-(!!! Neste caso é um 'V' todos os dias de 20 a 25 e todos os sábados)
-0	10,20	*	*	*	........
-*	20	*	*	*	0,6	...... (minuto a minuto)
-30	*	*	*	0,4,6	........
-*/15	*	*	10	*	....... (/ -> de 15 em q5 minutos)
-*	9-18/3	*	*	*	....... (de 3 em 3 horas, das 9 às 18)
-
-. crontab -e          -> Open crontab and add cron jobs to it
-. crontab -r          -> Delete current crontab
-. crontab -l          -> See current crontab
-. select-editor       -> trocar editor crontab
-. crontab -e -u john  -> Edit crontab for the user 'john'
-
--> guardado em: /var/spool/cron/crontabs (não é preciso ver)
--> começa a anotar/correr comandos à primeira unidade (ex: minuto)
--> se não é posto a posição do ficheiro de destino, escreve na homefolder do user
--> Echo não funciona. Não há output
-
--> idea: 
-. grep cron /var/log/syslog | tail -10 (por exemplo - últimos comandos de crontab)
-. touch /etc/cron.allow     -> selectionar os que podem aceder ao crontab
-(se vazio, ninguém exceto o root pode aceder)
--> mesma ideia com o cron.deny (os que não podem aceder)
--> o cron.allow, se existir, faz com que o sistema não olhe para o cron.deny(!)
-   Se estiver vazio, ninguém tem acesso a não ser o root(!)
-
-Nota: &&, ||, ;
-####################################################################################
-				-at-
-
-# This, much like crontab, is used to create jobs. But unlike crontab, it will leave
-# no trace. Meaning that after a job is fulfilled, its command gets deleted
-
-# Examples:
-
-. at now + 15 min
-. at 12:00
-. at 15:23 1 jun 2024
-. at 12:00 5/24/2024      -> Mês/Dia/Ano
-. at 14:33 THU
-
-# Then we introduce commands
-> <commands>
-
-# And exit
-> (ctrl + D)
-
-. atq    -> Que tarefas existem (alternativamente at -l)
-. at -c <número>   -> ver comandos da tarefa <número>
-. atrm <número>     -> eliminar tarefa <número> (alternativamente at -r)
-
-# em vez de /etc/cron.allow há o /etc/at.allow
-# se allow existir, o deny é negado (como com o crontab)
-# at.deny existe by default - e nega a utilização a todos os utilizadores do sistema mas que não fazemos login com eles (os outros users todos que não os utilizáveis)
-
-####################################################################################
-				-Exit Codes-
-
-. echo $?        -> Retuns exit code. If '0' all is ok.
-
-# Scripts usually run on a schedule and without human supervision 24/7, 
-# so it's a good idea to have exit codes inform us if something went wrong.
-# So we can, for example, upon getting a non 0 value, email the sysadmin.
-
-####################################################################################
-
-Note: Debian 12 doesn't have /var/log/syslog
- We can check logs in, for example, journalctl -u cron
-
-####################################################################################
-				-rsync-
-
-# A utility for efficiently transferring and synchronizing files between a computer and a storage drive and accross networked computers by comparing the modification times and sizes of files.
-
--> rsync <option> <file_to_copy_from> <user@>host:dest
+**Note:** *Soft Links are very much like Windows shortcuts, pointing directly to the file or folder.*
+*Hard Links point towards the space that the file occupies on the drive.*
+*We can use Hard Links as backups, making it harder for a file to be accidentally deleted.*
 
 
--r - recursivo (não preserva timestamp - fica com data da transferência)
--v - verbose
--a - archive mode (preserva o timestamp)
--d - comprimir e descomprimir automaticamente (origem e destino)
--h - human-readable
+### CRONTAB
 
-EX: 
-. rsync -avzh /dados/ grsip@192.168.1.205:    (vai para a home do user)
-- no ficheiro recebido estará a data de transmissão dos dados(? - verificar)
-NOTA: sem a barra, copia a pasta E O CONTEÚDO
-Ou seja, rsync -avzh /dados grsip@192.168.1.205:
+	0-59	0-23	1-31	1-12	0-6		(0 = Sunday & 7 = Sunday)
+	(Min)	(Hour)	(DOM)	(MON)	(DOW)	command 
+	
+	DOM ---> Day of Month
+	MON ---> Month
+	DOW ---> Day of Week
+	cmd ---> Command
 
-Receber ficheiros. Ex:
+**Note:** *Events will happen in a cycle.*
+*use **\*** for empty values (means 'Any').*
 
-. rsync -avzh root@192.168.1.205:/file_grsip.tar.gz ./   -> para a pasta atual
+#### A few examples
+	
+	Min	Hour	DOM	MON	DOW	command
+	
+	30	17	*	*	*	rm -r /tmp/* (every day at 17:30)
+	30	0	*	12	*	........     (December at 00:30)
+	0	0	1-15,20	12	* 	........     (1 to 15, 20 of December)
+	0	12	*	12	1-5	........             
+	12	12	20-25	1-10	6	........     (every day from 20 to 25 and all saturdays)
+	0	10,20	*	*	*	........
+	*	20	*	*	0,6	........     (every minute)
+	30	*	*	*	0,4,6	........
+	*/15	*	*	10	*	........     (every 15 minutes)
+	*	9-18/3	*	*	*	........     (every 3 hours, from 9 to 18)
 
-Crontab(!): não dá para fazer coisas em foreground (ergo, nada de por passwords).
-Solução: user sem password -> estabelecer connexão de sgurança - apenas de uma máquina para a outra - apenas num sentido e entre 2 utilizadores. Só neste sentido e com estes utilizadores não precisa de palavra passe. Qualquer outro sentido ou users, pede pass.
 
-Precisamos de chave RSA!
+> **. crontab -e** ... *(Open crontab and add cron jobs to it
+>
+> **. crontab -r** ... *(Delete current crontab)*
+>
+> **. crontab -l** ... *(See current crontab)*
+>
+> **. select-editor** ... *(trocar editor crontab)*
+>
+> **. crontab -e -u john** ... *(Edit crontab for the user 'john')*
 
-. ssh-keygen -t rsa     -> criada a chave (sem pass-phrase)
-. ssh-copy-id -i .ssh/id_rsa.pub grsip@192.168.1.205 -> não é preciso caminho
+**Notes:** *stored in: **/var/spool/cron/crontabs** (no need to edit the file)*
+*It starts running commands at first unit (ex: first minute)*
+*If no destination file is added, it will write in the user's homefolder.*
+* Echo doesn't work. There is no printing to the terminal.
 
-Agora a outra máquina tem a chave pública do outro lado.
+> **. grep cron /var/log/syslog | tail -10** ... *(as an example: the last 10 crontab commands)*
+>
+> **. touch /etc/cron.allow** ... *(select those that can access crontab. If empty, then only the root can access it)*
 
-Teste connexão:
-.ssh grsip@192.168.1.205       -> login direto sem palavra-passe
+**Note:** *We can serve a similar purpose with **cron.deny**.*
+*If **cron.allow** exits it will stop the system from checking **cron.deny**.
+*Debian 12 doesn't have **/var/log/syslog** by default. We can check logs with, for example, **journalctl -u cron**.*
+
+
+### AT
+
+*Much like with **crontab**, **at** is used to create jobs. But unlike crontab, it will leave no trace.*
+*Meaning that after a job is fulfilled, its task and command gets permanently deleted.*
+
+#### Examples
+
+> **. at now + 15 min**
+> 
+> **. at 12:00**
+> 
+> **. at 15:23 1 jun 2024**
+> 
+> **. at 12:00 5/24/2024** ... *(month/day/year)*
+> 
+> **. at 14:33 THU**
+
+**Note:** *after setting one of the above tasks we then specify what command is to be started.*
+When we are done, we exit with **Ctrl-D**.*
+
+#### Reference
+
+> **. atq** ... *(which tasks are there. Alternative to **-l**)*
+>
+> **. at -c <number\>** ... *(see the commands of task number X)*
+>
+> **. atrm <number\>** ... *(remove task number X. Alternative to **-r**)*
+
+**Notes:** *as with crontab, we have **/etc/at.allow**.*
+**The file **at.deny** exists by default and denies usage to all users that can't login (system users).* 
+				
+    
+### EXIT CODES (wip)
+
+> **. echo $?** ... *(Retuns exit code. If **0** all is ok)*
+
+Scripts usually run on a schedule and without human supervision 24/7, 
+so it's a good idea to have exit codes inform us if something went wrong.
+So we can, for example, upon getting a non 0 value, email the sysadmin.
+
+
+### RSYNC
+
+A utility for efficiently transferring and synchronizing files between a computer and a storage drive and accross networked computers by comparing the modification times and sizes of files.
+
+	rsync <option\> <file_to_copy_from\> <user\>@<host\>:<destination\>
+
+
+	-r      (recursive (timestamp isn't preserved, so it keeps the transfer date)
+	-v      (verbose)
+	-a      (archive mode (preserves the timestamp)
+	-d      (compress and decompress automatically at the origin and destination, respectivelly)
+	-h      (human-readable)
+
+#### Examples
+
+> **. rsync -avzh /data/ grsip@192.168.1.205:** ... *(forwarded to the user's home)*
+
+**Note:** *without the final **/** it will copy both folder and files within(!).*
+*i.e.* **rsync -avzh /data grsip@192.168.1.205:**
+
+> **. rsync -avzh root@192.168.1.205:/file_grsip.tar.gz ./** ... *(receives the file into the current folder)*
+>
+> **. rsync -avzh -e "ssh -p9000" root@192.168.1.205:/file_grsip.tar.gz ./** ... *(note how we add the port)*
+
+Crontab doesn't let us do things on the foreground. So we cannot enter passwords.
+An interesting solution is to have a secure connection, between two machines, that doesn't require a password.
+This connection will work in one direction only and between those two users. Anything else will fail.
+We'll need an RSA key.
+
+#### Secure, passwordless connection
+
+> **. ssh-keygen -t rsa** ... *(creates the passwordless key)*
+>
+> **. ssh-copy-id -i .ssh/id_rsa.pub grsip@192.168.1.205** ... *(no path required)*
+
+*Now, the other machine has a public key.*
+
+#### Connection test
+
+> **.ssh grsip@192.168.1.205** ... *(passwordless direct login)*
  
-Nota: porta:
-rsync -avzh -e "ssh -p9000" root@192.168.1.205:/file_grsip.tar.gz ./
-
-PASSAR A LIMPO!
-
-####################################################################################
+*And now we can directly connect to the other machine, with these users and in this direction.*
+*We can go ahead and create crontab or at jobs that will send files accross our machines.*
 
 
 
