@@ -1,42 +1,46 @@
 
-##				Linux Basic Commands
+## Linux Basic Commands
 
 
 ####################################################################################
-**'ls (-l -h -a)'**             -> List directory
-**'cd'**                        -> Change directory
-**'mkdir'**                     -> Make directory
-**'touch'**                     -> Create blank file
-**'cp (-r to copy directory)'** -> Make copy of file
-**'mv'**                        -> Move/Rename file
-**'rm (-r for directories)**   -> remove file
-**'cat ( | less)**             -> list the content of a file
-**'tree**                      -> see tree structure of directories
-**'man**                       -> manual for a specific command
+	
+	**. ls** _(List directory)_
+	**. cd** _(Change directory)_
+	**. mkdir** _(Make directory)_
+	**. touch** _(Create blank file)_
+	**. cp (-r to copy directory)'** _(Make copy of file)_
+	**. mv** _(Move/Rename file)_
+	**. rm** _(remove file)_
+	**. cat** _(list the content of a file)_
+	**. tree** _(see tree structure of directories)_
+	**. man** _(manual for a specific command)_
+	
 ####################################################################################
-/etc/passwd                   -> has all users
-/etc/group                    -> has all groups
-/etc/shadow                   -> has all user (encrypted) passwords
 
-. passwd <user>                 -> change the password of a user
-. adduser <user>                -> add new user
-. deluser <user>                -> remove user
-. deluser <user> --remove-home  -> removes both the user and its homefolder
-. addgroup <group>              -> adds a new group
-. delgroup <group>              -> removes a group
-. adduser <user> <group>        -> adds a user to a group
-. deluser <user> <group>        -> removes user from a group
-. usermod -g <group> <user>     -> changes the primary group of a user
-. id                         -> shows the groups to which the user belongs to
-. init 0                     -> shuts down the machine
-. init 6                     -> restarts the machine
-. chown                    -> alters the ownership of files
-. chown -R <user> <file>   -> changes the owner of the folder and of all its content
-. chown <user>:<group> <file/folder> -> changes both owner and group of the file
-. chgrp                   -> changes the group owner of the file
-. chgrp -R <group> <file> -> changes the group owner of the file and all its content
-. chmod 754 <file>        -> changes the permissions of files/folders
-. chmod -R 660 <file>     -> alters the permissions for the folder and all its content
+/etc/passwd _(holds all users)_
+/etc/group _(has all groups)_
+/etc/shadow _(has all user (encrypted) passwords)_
+		
+	**. passwd <user>** _(change the password of a user)_
+	**. adduser <user>** _(add new user)_
+	**. deluser <user>** _(remove user)_
+	**. deluser <user> --remove-home** _(removes both the user and its homefolder)_
+	**. addgroup <group>** _(adds a new group)_
+	**. delgroup <group>** _(removes a group)_
+	**. adduser <user> <group>** _(adds a user to a group)_
+	**. deluser <user> <group>** _(removes user from a group)_
+	**. usermod -g <group> <user>** _(changes the primary group of a user)_
+	**. id** _(shows the groups to which the user belongs to)_
+	**. init 0** _(shuts down the machine)_
+	**. init 6** _(restarts the machine)_
+	**. chown** _(alters the ownership of files)_
+	**. chown -R <user> <file>** _(changes the owner of the folder and of all its content)_
+	**. chown <user>:<group> <file/folder>** _(changes both owner and group of the file)_
+	**. chgrp** _(changes the group owner of the file)_
+	**. chgrp -R <group> <file>** _(changes the group owner of the file and all its content)_
+	**. chmod 754 <file>** _(changes the permissions of files/folders)_
+	**. chmod -R 660 <file>** _(alters the permissions for the folder and all its content)_
+	
 ####################################################################################
 . *         -> 0 or more characters
 . ?         -> exactly 1 character
