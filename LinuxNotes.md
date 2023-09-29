@@ -1,55 +1,70 @@
 
-## Linux Basic Commands
+## **Linux Commands**
 
 
-####################################################################################
-	
-	**. ls** _(List directory)_
-	**. cd** _(Change directory)_
-	**. mkdir** _(Make directory)_
-	**. touch** _(Create blank file)_
-	**. cp (-r to copy directory)'** _(Make copy of file)_
-	**. mv** _(Move/Rename file)_
-	**. rm** _(remove file)_
-	**. cat** _(list the content of a file)_
-	**. tree** _(see tree structure of directories)_
-	**. man** _(manual for a specific command)_
-	
-####################################################################################
 
-/etc/passwd _(holds all users)_
-/etc/group _(has all groups)_
-/etc/shadow _(has all user (encrypted) passwords)_
+### Basic Commands
+
+|**Command**    | **Description**       |
+|---------------|-----------------------|
+|ls             |list directory         |
+|cd             |change directory       |
+|mkdir          |make directory         |
+|touch          |create blank file      |
+|echo           |write on terminal      |
+|cp             |copy                   |
+|mv             |move(cut)              |
+|rm             |remove file            |
+|cat            |list contents of file  |
+|tree           |see directory structure|
+|man            |check the manual
+
+
+### Important Folders
+
+|**Folder Path**|**Description**        |
+|---------------|-----------------------|
+|/etc/passwd    |has all users          |
+|/etc/group     |has all groups         |
+|/etc/shadow    |has user userpasswords |
+
 		
-	**. passwd <user>** _(change the password of a user)_
-	**. adduser <user>** _(add new user)_
-	**. deluser <user>** _(remove user)_
-	**. deluser <user> --remove-home** _(removes both the user and its homefolder)_
-	**. addgroup <group>** _(adds a new group)_
-	**. delgroup <group>** _(removes a group)_
-	**. adduser <user> <group>** _(adds a user to a group)_
-	**. deluser <user> <group>** _(removes user from a group)_
-	**. usermod -g <group> <user>** _(changes the primary group of a user)_
-	**. id** _(shows the groups to which the user belongs to)_
-	**. init 0** _(shuts down the machine)_
-	**. init 6** _(restarts the machine)_
-	**. chown** _(alters the ownership of files)_
-	**. chown -R <user> <file>** _(changes the owner of the folder and of all its content)_
-	**. chown <user>:<group> <file/folder>** _(changes both owner and group of the file)_
-	**. chgrp** _(changes the group owner of the file)_
-	**. chgrp -R <group> <file>** _(changes the group owner of the file and all its content)_
-	**. chmod 754 <file>** _(changes the permissions of files/folders)_
-	**. chmod -R 660 <file>** _(alters the permissions for the folder and all its content)_
+### Other Commands
+
+> **. passwd <user>** ... *(change the password of user)*
+> **. adduser <user>** ... *(add new user)*
+> **. deluser <user>** ... *(remove user)*
+> **. deluser <user> --remove-home** ... *(removes user & homefolder)*
+> **. addgroup <group>** ... *(adds new group)*
+> **. delgroup <group>** ... *(removes group)*
+> **. adduser <user> <group>** ... *(adds user to group)*
+> **. deluser <user> <group>** ... *(removes user from group)*
+> **. usermod -g <group> <user>** ... *(changes the primary group of user)*
+> **. id** ... *(shows the groups to which user belongs)*
+> **. init 0** ... *(shuts down the machine)*
+> **. init 6** ... *(restarts the machine)*
+> **. chown** ... *(alters ownership of files)*
+> **. chown -R <user> <file>** ... *(changes owner of folder and all content)*
+> **. chown <user>:<group> <file/folder>** ... *(changes both owner and group of file)*
+> **. chgrp** ... *(changes the group owning the file)*
+> **. chgrp -R <group> <file>** ... *(same, and all its content)*
+> **. chmod 754 <file>** ... *(changes the permissions of files)*
+> **. chmod -R 660 <file>** ... *(alters folder permissions and of all its content)*
 	
-####################################################################################
-. *         -> 0 or more characters
-. ?         -> exactly 1 character
-. >         -> output redirection, with overrite
-. >>        -> output redirection, by addition
-. head 5    -> shows the firts 5 lines of the file
-. tail 12   -> shows the last 12 lines of the file
-. sort            -> orders the file
-. wget <URL> -O <file>   -> downloads the content of the URL and saves it
+> **. head 5** ... *(shows the firts 5 lines of the file)*
+> **. tail 12** ... *(shows the last 12 lines of the file)*
+> **. sort** ... *(orders the file)*
+> **. wget <URL> -O <file>** ... *(downloads the content of the URL and saves it)*
+
+### Wildcards
+
+|**Wildcard** | **Description**             |
+|-------------|-----------------------------|
+|\*           |0 or more characters         |
+|?            |exactly 1 character          |
+|\>           |output redirection (overrite)|
+|\>\>         |output redirection (append)  |
+
 ####################################################################################
                                       -SSH-
 
