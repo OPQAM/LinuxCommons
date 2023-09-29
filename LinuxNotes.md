@@ -86,6 +86,8 @@
 
 ### SSH
 
+The [SSH protocol](https://en.wikipedia.org/wiki/Secure_Shell) allows for secure access over a network.
+
 #### Installation:
 
 	. apt install ssh
@@ -145,6 +147,8 @@
 
 ### FTP (File Tranfer Protocol)
 
+The [FTP protocol](https://en.wikipedia.org/wiki/FTP) is used to transfer files between computers over a network.
+
 #### Installation:
 
 	. apt install vsftpd
@@ -183,6 +187,8 @@
 
 
 #### Encryption:
+
+[Encryption](https://en.wikipedia.org/wiki/Encryption) is a way of concealing information, in order to keep it from being unwillingly shared.
 
 > **. cd /etc/ssl/private**
 >
@@ -329,6 +335,8 @@ Only then will the NIC be recognized.
 
 ### FILE COMPRESSION
 
+File compression or [data compression](https://en.wikipedia.org/wiki/File_compression) is the reduction of the number of bits necessary to represent said data.
+
 #### TAR (Grouping)
 
 > **. tar cvf /<file.tar\> <files.txt\> <folders\>** ... *(groups files or folder)*
@@ -458,6 +466,8 @@ Only then will the NIC be recognized.
 
 ### CRONTAB
 
+The [cron](https://en.wikipedia.org/wiki/Crontab) command-line utility is used to schedule jobs on a Unix-like machine.
+
 	0-59	0-23	1-31	1-12	0-6		(0 = Sunday & 7 = Sunday)
 	(Min)	(Hour)	(DOM)	(MON)	(DOW)	command 
 	
@@ -552,7 +562,7 @@ So we can, for example, upon getting a non 0 value, email the sysadmin.
 
 ### RSYNC
 
-A utility for efficiently transferring and synchronizing files between a computer and a storage drive and accross networked computers by comparing the modification times and sizes of files.
+The utility tool [rsync](https://en.wikipedia.org/wiki/Rsync) is an efficient way to transfer files between machines, by comparing the modification times and sizes of files.
 
 	rsync <option\> <file_to_copy_from\> <user\>@<host\>:<destination\>
 
