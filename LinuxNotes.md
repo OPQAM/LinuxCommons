@@ -83,42 +83,40 @@
 |\>           |output redirection (overrite)|
 |\>\>         |output redirection (append)  |
 
+---
 
 ### SSH
 
 The [SSH protocol](https://en.wikipedia.org/wiki/Secure_Shell) allows for secure access over a network.
 
-#### Installation:
+#### Installation
 
-	. apt install ssh
+> **.apt install ssh**
 
-#### Configuration:
+#### Configuration
 
-	. vim /etc/ssh/sshd_config     (remember your backups)
+> **. vim /etc/ssh/sshd_config** ... * (remember your backups)*
 
----
----
-(*sshd_config* file)
 
-**port 22**
+##### sshd_config:
 
-***AllowUsers <user\>** ... (users that can access the system via SSH)*
+	port 22
 
-***DenyUsers <user1\> <user2\>** ... (users that are forbidden from doing so)*
+	AllowUsers <user>                    (users that can access the system via SSH)
 
-***AllowGroups <group1\> <group2\>** ... (groups that can access the system via SSH)*
+	DenyUsers <user1> <user2>            (users that are forbidden from doing so)
+
+	AllowGroups <group1> <group2>        (groups that can access the system via SSH)
  
-**DenyGroups <group1\> <group2\>** ... (groups that are forbidden from doing so)*
+	DenyGroups <group1> <group2>         (groups that are forbidden from doing so)
 
-***PermitRooLogin YES** ... (to allow root access via SSH)*
+	PermitRooLogin YES                   (to allow root access via SSH)
+
+
+
 
 **Note:** *do not use **AlloUsers** and **AllowGroups** simultaneously!*
 
----
----
-
-
-<br>
 
 > **. systemctl restart ssh** ... *(SSH restart, so that configuration changes can take place)*
 >
@@ -144,49 +142,45 @@ The [SSH protocol](https://en.wikipedia.org/wiki/Secure_Shell) allows for secure
 
 **note:** *we only need SSH at the machine we are trying to connect to.*
 
+---
 
 ### FTP (File Tranfer Protocol)
 
 The [FTP protocol](https://en.wikipedia.org/wiki/FTP) is used to transfer files between computers over a network.
 
-#### Installation:
+#### Installation and Configuration
 
-	. apt install vsftpd
-
-#### Configuration:
-
-	. vim /etc/vsftpd.conf                  (remember your backups)
-
----
----
-(*vsftpd.conf* file)
-
-***listen_port=X** ... (the X default value is 21, but we should change this)*
-
-***write_enable=YES** ... (so that users can also upload, not just download9*
-
-***chroot_local_user=YES** ... (locks users inside their own homefolder when using FTP)*
-
-***allow_writeable_chroot=YES** ... (lets users upload and download in their homefolder)*
-
-***chroot_list_enable=YES** ... (allows some users to not be restricted by the chroot)*
-
-***chroot_list_file=/etc/<filename\>** ... (specifies the file to tell which users)*
-
-*(That specific file only contains the names of said users)*
-
----
----
+> **.apt install vsftpd**
+> **.vim /etc/vsftpd.conf**
 
 
-<br>
+##### vsftpd.conf:
+
+
+	listen_port=X                        (the X default value is 21, but we should change this)
+
+	write_enable=YES                     (so that users can also upload, not just download9
+
+	chroot_local_user=YES                (locks users inside their own homefolder when using FTP)
+
+	allow_writeable_chroot=YES           (lets users upload and download in their homefolder)
+
+	chroot_list_enable=YES               (allows some users to not be restricted by the chroot)
+
+	chroot_list_file=/etc/<filename\>    (specifies the file to tell which users)
+
+
+
+
+**Note:** *that specific file only contains the names of said users*
+
 
 > **. systemctl restart vsftpd** ... *(FTP system restart)*
 > 
 > **. systemctl status vsftpd** ... *(FTP system check)*
 
 
-#### Encryption:
+#### Encryption
 
 [Encryption](https://en.wikipedia.org/wiki/Encryption) is a way of concealing information, in order to keep it from being unwillingly shared.
 
@@ -211,46 +205,41 @@ We are creating a self-signed certificate, valid for 365 days.
 
 > **vim /etc/vsftpd.conf**
 
----
----
-(*vsftpd.conf* file)
 
-*(these can be found, and added to, at about line 150)*
+##### vsftpd.conf:
 
-***rsa_cert_file=etc/ssl/private/<file\>***
+	rsa_cert_file=etc/ssl/private/<file\>
 
-***rsa_private_key_file=/etc/ssl/private/<file\>***
+	rsa_private_key_file=/etc/ssl/private/<file\>
 
-***ssl_enable=YES***
+	ssl_enable=YES
 
-***ssl_ciphers=HIGH***
+	ssl_ciphers=HIGH
 
-***ssl_tlsv1=YES***
+	ssl_tlsv1=YES
 
-***ssl_sslv2=NO***
+	ssl_sslv2=NO
 
-***ssl_sslv3=NO***
+	ssl_sslv3=NO
 
-***force_local_data_ssl=YES***
+	force_local_data_ssl=YES
 
-***force_local_logins_ssl=YES***
+	force_local_logins_ssl=YES
 
----
----
+
 
 **Note:** *Now we can securely use FTP.*
 
-<br>
-
+---
 
 ### NETWORK CONFIGURATION
 
 *Networks Interface Cards are identified by the system with the name enpXsY (ex: **enp0s3**)*
 
-	en         (ethernet)
-	p          (pci card; o = onboard; s = pci express)
-	X          (bus)
-	Y          (the occupied slot)
+en         (ethernet)
+p          (pci card; o = onboard; s = pci express)
+X          (bus)
+Y          (the occupied slot)
 
 
 > **. ip a** ... *(identify all available network interface cards)*
@@ -282,31 +271,26 @@ We are creating a self-signed certificate, valid for 365 days.
 
 **vim /etc/network/interfaces** ... *(we can check here how the interface cards are working)*
 
----
----
-(*interfaces* file)
 
-***allow-hotplug enp0s3***
+##### interfaces:
 
-***iface enp0s3 inet static**   (change here to static)*
+	allow-hotplug enp0s3
 
-***address 192.168.27.249***
+	iface enp0s3 inet static          (change here to static)
 
-***netmask 255.255.255.0***
+	address 192.168.27.249
 
-***gateway 192.168.27.222***
+	netmask 255.255.255.0
 
-***dns-nameservers 8.8.8.8 8.8.4.4***
+	gateway 192.168.27.222
 
----
----
+	dns-nameservers 8.8.8.8 8.8.4.4
 
-
-<br>
 
 > **. ifdown enp0s3**
 >
 > **. ifup enp0os3**
+
 
 #### Adding an extra interface card
 
@@ -315,23 +299,19 @@ Then we'll need to check the name given with **ip addr**.
 Finally, we'll have to edit once more the **/etc/network/interfaces** file.
 Only then will the NIC be recognized.
 
+
+
+##### interfaces:
+
+	allow-hotplug enp0s8
+
+	iface enp0s8 inet static
+
+	address 192.168.27.253
+
+	netmask 255.255.255.0
+
 ---
----
-(*interfaces* file)
-
-***allow-hotplug enp0s8***
-
-***iface enp0s8 inet static***
-
-***address 192.168.27.253***
-
-***netmask 255.255.255.0***
-
----
----
-
-
-<br>
 
 ### FILE COMPRESSION
 
@@ -644,17 +624,17 @@ We'll now edit **/etc/dhcp/dhcpd.conf**.
 
 **{**
 
-    **range 10.4.100.100 10.4.100.200;** ... *(the range of addresses that will use DHCP)*
+   **range 10.4.100.100 10.4.100.200;** ... *(the range of addresses that will use DHCP)*
 
-    **option domain-name-servers 8.8.8.8, 8.8.4.4;** ... *(the DNS. Pay attention to the comma)*
+   **option domain-name-servers 8.8.8.8, 8.8.4.4;** ... *(the DNS. Pay attention to the comma)*
 
-    **option domain-name "linux.dhcp";** ... *(the domain name)*
+   **option domain-name "linux.dhcp";** ... *(the domain name)*
 
-    **option routers 10.4.0.1;** ... *(the default-gateway)*
+   **option routers 10.4.0.1;** ... *(the default-gateway)*
 
-    **default-lease-time 86400** ... *(the default lease time, in seconds, i.e. a day)*
+   **default-lease-time 86400** ... *(the default lease time, in seconds, i.e. a day)*
 
-    **max-lease-time 172800** ... *(the maximum lease time, in seconds, i.e. two days)*
+   **max-lease-time 172800** ... *(the maximum lease time, in seconds, i.e. two days)*
 
 **}**
 
@@ -686,9 +666,9 @@ We'll be adding a few lines to **/etc/dhcp/dhcpd.conf**.
 
 **{**
     
-    **hardware ethernet 08:00:27:89:A2:D8;**
+   **hardware ethernet 08:00:27:89:A2:D8;**
 
-    **fixed-address 10.4.100.30;**
+   **fixed-address 10.4.100.30;**
 
 **}**
 
