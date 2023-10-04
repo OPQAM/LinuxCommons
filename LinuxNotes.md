@@ -501,7 +501,7 @@ The [cron](https://en.wikipedia.org/wiki/Crontab) command-line utility is used t
 >
 > **. crontab -l** ... *(See current crontab)*
 >
-> **. select-editor** ... *(trocar editor crontab)*
+> **. select-editor** ... *(change crontab editor)*
 >
 > **. crontab -e -u john** ... *(Edit crontab for the user 'john')*
 
@@ -514,7 +514,7 @@ The [cron](https://en.wikipedia.org/wiki/Crontab) command-line utility is used t
 >
 > **. touch /etc/cron.allow** ... *(select those that can access crontab. If empty, then only the root can access it)*
 
-**Note:** *We can serve a similar purpose with **cron.deny**.*
+**Notes:** *We can serve a similar purpose with **cron.deny**.*
 *If **cron.allow** exits it will stop the system from checking **cron.deny**.
 *Debian 12 doesn't have **/var/log/syslog** by default. We can check logs with, for example, **journalctl -u cron**.*
 
@@ -603,6 +603,185 @@ We'll need an RSA key.
  
 *And now we can directly connect to the other machine, with these users and in this direction.*
 *We can go ahead and create crontab or at jobs that will send files accross our machines.*
+
+
+### DHCP
+
+All steps should be ran as root.
+In order to attribute IP addresses, our DHCP server will need to have an IP inside that specific network.
+So, before any of these configurations are set up, it is a good idea to attribute and fix a static IP address.
+Also, we are assuming a configuration made on enp0sX - in an internal network (Virtual Box).
+
+#### Installation
+
+	 . apt install isc-dhcp-server          (DHCP configuration files are stored in /etc/dhcp/)
+	 . vim /etc/default/isc-dhcp-server     (we need to set up the network interface + config location)
+
+---
+---
+(*/etc/default/isc-dhcp-server* file)
+
+**DHCPDv4_CONF=/etc/dhcp/dhcpd.conf** ... *(this or the v6 line must be uncommented)*
+
+...
+
+**INTERFACESv4="enp0s3"** ... *(we need to add here or in v6 the appropriate network interface)*
+
+---
+---
+
+<br>
+
+#### Configuration
+
+We'll now edit **/etc/dhcp/dhcpd.conf**.
+
+---
+---
+(*dhcpd.conf* file)
+
+**subnet 10.4.0.0 netmask 255.255.0.0** ... *(the network we want to configure)*
+
+**{**
+
+    **range 10.4.100.100 10.4.100.200;** ... *(the range of addresses that will use DHCP)*
+
+    **option domain-name-servers 8.8.8.8, 8.8.4.4;** ... *(the DNS. Pay attention to the comma)*
+
+    **option domain-name "linux.dhcp";** ... *(the domain name)*
+
+    **option routers 10.4.0.1;** ... *(the default-gateway)*
+
+    **default-lease-time 86400** ... *(the default lease time, in seconds, i.e. a day)*
+
+    **max-lease-time 172800** ... *(the maximum lease time, in seconds, i.e. two days)*
+
+**}**
+
+---
+---
+
+<br>
+
+#### Reset the command and verify its state
+
+	. systemctl restart isc-dhcp-server
+	. systemctl status isc-dhcp-server
+	. journalctl -xe                     (to retect any possible errors)
+
+
+**Notes:** *we can see our IP with **ip addr**, we can know our gateway through **ip route**, and we can see our DNS through **cat /etc/resolf.conf**.*
+
+
+#### Set IPs through MAC address
+
+This can make it so that a machine can always get the same IP address, tying said IP address to the machine's MAC address.
+We'll be adding a few lines to **/etc/dhcp/dhcpd.conf**.
+
+---
+---
+(*dhcpd.conf* file)
+
+**host webserver** ... *(we'll configure a single host inside the network)*
+
+**{**
+    
+    **hardware ethernet 08:00:27:89:A2:D8;**
+
+    **fixed-address 10.4.100.30;**
+
+**}**
+
+---
+---
+
+
+<br>
+
+We now need to restart our DHCP service and check if the correct IP was attributed to that machine.
+
+
+#### DHCP Logs
+
+	. cat /var/lib/dhcp/dhcpd.leases             (this file is monitoring, in real time, what the server is doing to its IPs)
+	. cat /var/lib/dhcp/dhcpd.leases~            (a backup of the oldest data of the /dhcpd.leases file)
+
+**Notes:** *all logs ate stored in **/var/log/syslog** (if it exists).*
+**grep dhcp /var/log/syslog** *will check only dhcp logs.*
+**grep dhcp /var/log/syslog | tail -20** *of those, this will check only the last 20 logs*
+
+
+#### Connecting to another interface (for outside access)
+
+We need to edit the file **/etc/sysctl.conf**.
+
+---
+---
+(*sysctl.conf* file)
+
+**net.ipv4.ip_forward=1** --- *(this specific line needs to be uncommented, so that Linux can forward packets between interfaces)*
+
+---
+---
+
+
+<br>
+
+Now we should restart the server.
+
+	. apt installiptables                  (installing the iptables packet)
+
+
+> **.iptables --table nat --append POSTROUTING --out-interface enp0s8 -j MASQUERADE** ... *(use whatever 'bridged adapter' interface here)*
+
+
+**Notes:** *now we can access the internet through enp0s8 (for example)*.
+*But this command will vanish as soon as we restart our machine, so we need to create a script for it.*
+
+
+> **.touch /root/script.sh** ... *(or we can just edit it directly with vim)*
+> **.vim /root/script.sh**
+
+---
+---
+(*script.sh* file)
+
+**#!/bin/sh**
+
+**iptables --table nat --append POSTROUTING --out-interface enp0s8 -j MASQUERADE** ... *(same line as before)*
+
+---
+---
+
+
+<br>
+
+> **.chmod +x /root/script.sh** ... *(we need to give it executable permissions)*
+> **./root/script.sh** ... *(we cna do this to test if the script is running fine)*
+
+We now need to create the file **/etc/rc.local** so taht our script can run automatically at restart.
+We'll also need to give it executable permissions.
+
+---
+---
+(*rc.local* file)
+
+**#!bin/sh -e** ... *(the **-e** instructs the shell to exit immediately if the scripts exits with a non-zero status)*
+
+**/root/script.sh**
+
+**exit 0** ... *(if it reaches here and returns zero, then it was probably successful)*
+
+---
+---
+
+
+<br>
+
+> **.chmod +x /etc/rc.local** ... *(permission to execute)*
+> **./etc/rc.local** ... *(testing the script)*
+
+Now we can restart the server and check to see if our internal network can access the internet.
 
 
 
