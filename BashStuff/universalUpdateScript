@@ -1,0 +1,20 @@
+#!/bin/bash
+
+# useful bash scripts
+
+# Universal Update Script
+
+if [-d /etc/pacman.d ]           # if this directry is present...
+then
+	# the host is Arch-based. Run the pacman update command
+	sudo pacman -$yu
+fi
+
+if [ -d /etc/apt ]
+then
+	# Debian based
+	sudo apt update
+	sudo apt dist-upgrade
+fi
+
+# NOTES: issue occur if the file actually exists, but we're not in Arch (as an example)

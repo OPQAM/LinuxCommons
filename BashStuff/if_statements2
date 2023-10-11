@@ -1,0 +1,12 @@
+#!/bin/bash
+
+echo "Speak!"
+
+read answer
+
+if [ "$answer" = "" ]; then
+	echo "Don't want to speak, huh?"
+	echo "Bye, then!"
+else
+	echo "If that's what you think, that's what you think."
+fi

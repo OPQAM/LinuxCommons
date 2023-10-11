@@ -1,0 +1,31 @@
+#!/bin/bash
+
+name=""
+surname=""
+
+while true
+do
+	echo "What is your name?"
+	read name
+
+	if [ "$name" != "" ]; then
+		echo "Nice to know you, $name!"
+		echo "Let's move on to your surname. What is it?"
+		read surname
+	
+		if [ "$surname" != "" ]; then
+
+			echo "Nice to meet you, $name $surname! Welcome to Linux.
+			"       # Note: pressing enter really enters a new line...
+			break
+		else
+			echo "Silence? Ok. Let's start again, shall we?"
+			sleep 2
+		fi
+	
+	else
+		echo "You actually have to type in a name, friend."
+		echo "We're starting over."
+		sleep 2
+	fi
+done

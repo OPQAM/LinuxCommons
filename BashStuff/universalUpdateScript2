@@ -1,0 +1,28 @@
+#!/bin/bash
+
+release_file=/etc/os-release    # this file exists in most Linux distros
+
+if grep -q "Arch" $release_file
+then
+	# the host is Arch-based
+	sudo pacman -$yu
+fi
+
+if grep -q "Debian" $release_file
+then
+	# the host is Debian-based
+	sudo apt update
+	sudo apt dist-upgrade
+fi
+
+if grep -q "Ubuntu" $release_file
+then
+	# the host is Ubuntu-based
+	sudo apt update
+	sudo apt dist-upgrade
+fi
+
+# Note: like this we aren't checking for other distros, 
+#       which can be a problem
+# Note: '-q' is quiet mode -> so that we don't get stuff printed on screen
+# Note: this tactic works, but makes for a lengthy script...

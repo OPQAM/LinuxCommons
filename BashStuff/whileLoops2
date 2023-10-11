@@ -1,0 +1,13 @@
+#!/bin/bash
+
+myvar=1
+
+while [ -f ~/testfile  ]
+do
+	echo "The file exists."
+done
+
+echo "The file no longer exists."
+
+#NOTE: create file. Run program. It continuously tells us the file exists
+#      delete file while program is running - it immediately stops.

@@ -1,0 +1,19 @@
+#!/bin/bash
+
+release_file=/etc/os-release
+
+if grep -q "Arch" $release_file
+then
+	# the host is Arch-based
+	sudo pacman -$yu
+fi
+
+if grep -q "Pop" $release_file ||
+   grep -q "Debian" $release_file || 
+   grep -q "Ubuntu" $release_file
+then
+	sudo apt update
+	sudo apt dist-upgrade
+fi
+
+# Note: this smarter version lets us write a bit less, by using the '||'
