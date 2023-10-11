@@ -1,0 +1,6 @@
+#!/bin/bash
+
+for file in logfiles/*.log
+do
+	tar -czvf $file.tar.gz $file # so, we will individually compress every *.log file we find inside logfiles/
+done

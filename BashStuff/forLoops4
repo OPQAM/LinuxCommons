@@ -1,0 +1,14 @@
+#!/bin/bash
+
+for i in {0..20}
+do
+	if [ $((i % 2)) -eq 0 ] # remember, that calculations require ((calc))
+	then
+		echo "$i is an even number."
+	else
+		echo "$i is an odd number."
+	fi	
+done
+
+echo "This is the end, beautiful friend, the end."
+
