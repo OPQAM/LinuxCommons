@@ -1,0 +1,23 @@
+#!/bin/bash
+
+echo "Who are you?"
+read userName
+
+lowBar=10
+
+userNumber=20
+
+while [ "$userNumber" -ge "$lowBar"  ]
+do
+	echo "Please enter a decent number:"
+	read userNumber
+
+	if [ "$userNumber" -le "$lowBar" ]; then
+		echo "$userName, you are a gentleman and pal. $userNumber is an outstanding number."
+		echo "Bye bye."
+	else
+		echo "$userName, let's just try again, shall we? $lowBar is too high a number."
+	fi
+done
+
+# Ok, do mind the proper placement of commas, and pay attention to the 'then' when working with IF statements

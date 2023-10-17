@@ -1,0 +1,37 @@
+#!/bin/bash
+
+a=0
+b=0
+c=0
+d=0
+
+while true 
+do
+	echo "--$a$b$c$d--"
+
+	echo "Please enter four values of 0 or 1:"
+	read a
+	read b
+	read c
+	read d
+
+	if [ "$a" -ne 1 ] && [ "$a" -ne 0 ] || \
+	   [ "$b" -ne 1 ] && [ "$b" -ne 0 ] || \
+	   [ "$c" -ne 1 ] && [ "$c" -ne 0 ] || \
+	   [ "$d" -ne 1 ] && [ "$d" -ne 0 ]; then
+	
+		echo "Enter only valid numbers."
+
+	elif [ "$a" -eq 0 ] && \
+		 [ "$b" -eq 0 ] && \
+		 [ "$c" -eq 0 ] && \
+		 [ "$d" -eq 0 ]; then
+
+		echo "--$a$b$c$d--"
+		echo "We're done here."
+		
+		break
+	fi
+done
+
+# NOTE: again, pay attention to the '\' which allows for continuation
