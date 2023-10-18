@@ -27,7 +27,7 @@ eval $(ssh-agent -s)
 ssh-add /root/.ssh/id_rsa
 
 
-# The pulls, with disabled verbosity
+# The repository pulls
 git --git-dir=/home/opqam/PROJECTS/LinuxCommons/.git pull origin master
 git --git-dir=/home/opqam/PROJECTS/MigratingCoconuts/.git pull origin master
 git --git-dir=/home/opqam/PROJECTS/edoC/.git pull origin master
