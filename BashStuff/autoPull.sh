@@ -14,6 +14,7 @@ current_date=$(date '+%Y-%m-%d %H:%M:%S')
 echo "[$current_date] Log entry" >> "$bad_log_file"
 echo "[$current_date] Log entry" >> "$good_log_file"
 
+# Give a couple of seconds for the system to be able to deal with the SSH agent
 sleep 2
 
 # Appending the logs
