@@ -1,0 +1,16 @@
+#!/bin/bash
+
+
+# This job is to be added to 'at' to be run at a certain date
+# 'at 12:20 -f' /home/opqam/PROJECTS/LinuxCommons/BashStuff/SchedulingJobs/scheduler_at
+
+# 'atq'                    -> To see which jobs are active
+# 'atrm 3'                 -> Delete command number 3
+#
+# See notes elsewhere: 'LinuxCommons/LinuxNotes.md'
+
+
+logfile=job_results.log
+
+echo "The script ran at the following time: $(date)" >> $logfile       # Append, to keep track
+								       # of past changes

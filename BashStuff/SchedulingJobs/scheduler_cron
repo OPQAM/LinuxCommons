@@ -1,0 +1,45 @@
+#!/bin/bash
+
+# This is the Crontab scheduler. Scheduled changes stick and won't be removed upon being done
+# So, they will keep on happening again and again
+#
+# See notes elsewhere: 'LinuxCommons/LinuxNotes.md'
+
+
+logfile=job_results_cyclical.log
+
+# which echo              ->            /usr/bin/echo                            # (1)
+# which date              ->            /usr/bin/date                            # (2)
+
+
+/usr/bin/echo "The script ran at the following time: $(date)" >> $logfile        # (3)
+
+
+
+# NOTES:
+#
+# (1) Remembering that we can use the 'which' command to check where the command is stored
+# 
+# (2) This is a useful way to see if a command is recognized by the system or not
+#
+# (*) Therefore, we can then run the command using its full path. Note that this is considered
+#     to be a best practice. It's a good idea to always include the full path to a command.
+#     
+#     -> security;
+#     
+#     -> path variable (although we might be able to run the shell manually and have the
+#     	 system recognize the command and its location, the system might not find it all that
+#     	 easy, and so it's better to have the full path)
+#     	 If the user doesn't have that path in the PATH variable, when it's run, the command
+#     	 will actually fail (!);
+#
+#     -> When a job is run via Cron, it might not run in the usual Bash terminal, so it might
+#        really matter if the full path is there or not. Usually this isn't a problem, but
+#        it might be;
+#
+#     -> So, it just might follow, that when coding in Bash, it might not be a bad idea to 
+#        give variables to these commands and then call those variables '$thusly' in the
+#        command proper. Have the variables clearly stated at the beginning, and with their
+#        full paths.
+#
+# (*) sudo crontab -u <user> -e         -> this will schedule a job for another user
