@@ -1,0 +1,20 @@
+#!/bin/bash
+
+echo "You entered the argument: $1"                  					  # (1)
+
+echo "The script now allows upt to 4 arguments.\nSo $2 and $3 for $4."    # (2)
+
+
+
+
+
+
+# NOTES:
+#
+# (0) An argument is run when we run the script, instead of being declared beforehand
+#
+# (1) Now, when we run the script, we can enter an argument (i.e './argument1 Cakes').
+#     This will return the text 'You entered the argument: Cakes'
+#
+# (2) Do note that the script will run with as many arguments as you'd like
+#
