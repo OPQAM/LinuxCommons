@@ -1,0 +1,78 @@
+#!/bin/bash
+
+version=1.1
+stopping="no"
+
+echo "My calculator Version: $version"
+
+varX=""
+varY=""
+operation=""
+
+while [ "$stopping" != "yes" ] && [ "$stopping" != "y"  ]  # (1)
+do
+	echo "Enter number 1:"
+	read varX
+
+	if ! [[ "$varX" =~ ^-?[0-9]+$ ]]; then                   # (2)
+		echo "Number is not a valid integer."
+		continue
+	fi
+
+	echo "Enter operation (+,-,*,/):"
+	read operation
+
+	case "$operation" in                                   # (3)
+		"+" | "-" | "*" | "/" ) ;;
+		* )
+			echo "That is not a valid operation"
+			continue
+			;;
+		esac
+
+	echo "Enter number 2:"
+	read varY
+
+	if ! [[ "$varY" =~ ^-?[0-9]+$ ]]; then
+		echo "Number 2 is not a valid integer."
+		continue
+	fi
+
+	if [ "$varY" = 0  ] && [ "$operator" = "/" ]; then      # (4)
+		echo "Divide by Zero"
+		continue
+	fi
+
+	result=$(echo "scale=2; $varX $operation $varY" | bc)    # (5)
+
+	echo "Result: $result"
+
+	echo "Do you wish to leave?"
+	read stopping
+done
+
+
+echo "Thank you. I hope you had fun!"
+
+
+# NOTES:
+#
+# (1) Our while loop. The calculator will run until the user wants it to stop
+#
+# (2) This is Bash's extended test command ('[ ]' is the simple test version)
+#     It's used for conditional expressions
+#     '=~' is used for pattern matching. Allows to check if a string matches
+#     a RegEx
+#     '^[0-9]+$' Starting with a number and adding one or more of the
+#     receding. Ends at '$'.
+#	  '-?' is an optional minus sign, to allow for negative values
+#
+# (3) Using case, to make sure that our operation is in the specified set
+#
+# (4) We can't have a division by zero. This is just a control
+#
+# (5) The operation had to include 'bc' here, in order to appropriately
+#     deal with negatives. It also solves the 'division problem'. We now
+#     divide, instead of just 'floor'.
+#     'bc' = 'basic calculator'
+
