@@ -1,6 +1,7 @@
 #!/bin/bash
 
-version=1.1
+
+version=1.4
 stopping="no"
 
 echo "My calculator Version: $version"
@@ -9,12 +10,30 @@ varX=""
 varY=""
 operation=""
 
-while [ "$stopping" != "yes" ] && [ "$stopping" != "y"  ]  # (1)
+# Checking if 'bc' is present. If not ask user about it
+program=bc
+if ! command -v $program > /dev/null                             # (1)
+then
+	choice="no"
+	echo "$program is required to run this calculator."
+	echo "Would you like to install it?"
+	read choice
+
+	if [ "$choice" == "yes" ] || [ "$choice" == "y" ]; then
+		sudo apt update -y && sudo apt install -y $program
+	else
+		echo "This version of the calculator cannot run without the basic calculator. Signing out."
+		exit 0
+	fi
+fi
+
+# The calculator
+while [ "$stopping" != "yes" ] && [ "$stopping" != "y"  ]        # (2)
 do
 	echo "Enter number 1:"
 	read varX
 
-	if ! [[ "$varX" =~ ^-?[0-9]+$ ]]; then                   # (2)
+	if ! [[ "$varX" =~ ^-?[0-9]+$ ]]; then                   # (3)
 		echo "Number is not a valid integer."
 		continue
 	fi
@@ -22,7 +41,7 @@ do
 	echo "Enter operation (+,-,*,/):"
 	read operation
 
-	case "$operation" in                                   # (3)
+	case "$operation" in                                     # (4)
 		"+" | "-" | "*" | "/" ) ;;
 		* )
 			echo "That is not a valid operation"
@@ -38,12 +57,12 @@ do
 		continue
 	fi
 
-	if [ "$varY" = 0  ] && [ "$operator" = "/" ]; then      # (4)
+	if [ "$varY" = 0  ] && [ "$operator" = "/" ]; then       # (5)
 		echo "Divide by Zero"
 		continue
 	fi
 
-	result=$(echo "scale=2; $varX $operation $varY" | bc)    # (5)
+	result=$(echo "scale=2; $varX $operation $varY" | bc)    # (6)
 
 	echo "Result: $result"
 
@@ -57,9 +76,12 @@ echo "Thank you. I hope you had fun!"
 
 # NOTES:
 #
-# (1) Our while loop. The calculator will run until the user wants it to stop
+# (1) I had to send the output of 'command' to /dev/null, or it would be
+#     outputed onto the terminal
 #
-# (2) This is Bash's extended test command ('[ ]' is the simple test version)
+# (2) Our while loop. The calculator will run until the user wants it to stop
+#
+# (3) This is Bash's extended test command ('[ ]' is the simple test version)
 #     It's used for conditional expressions
 #     '=~' is used for pattern matching. Allows to check if a string matches
 #     a RegEx
@@ -67,11 +89,11 @@ echo "Thank you. I hope you had fun!"
 #     receding. Ends at '$'.
 #	  '-?' is an optional minus sign, to allow for negative values
 #
-# (3) Using case, to make sure that our operation is in the specified set
+# (4) Using case, to make sure that our operation is in the specified set
 #
-# (4) We can't have a division by zero. This is just a control
+# (5) We can't have a division by zero. This is just a control
 #
-# (5) The operation had to include 'bc' here, in order to appropriately
+# (6) The operation had to include 'bc' here, in order to appropriately
 #     deal with negatives. It also solves the 'division problem'. We now
 #     divide, instead of just 'floor'.
 #     'bc' = 'basic calculator'
