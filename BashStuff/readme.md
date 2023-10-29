@@ -49,5 +49,23 @@ person, all the issues that might have arisen are no more.
 
 - Now I'm going to create an email, and see if I can work with *sendmail*.
 
+- The email bit was a total mess. I'm having something of a hard time sending the messages throuh email
+while inside the script/terminal. So, for now I'll just use an external gmail account I created for this.
+
+- The files are created inside a folder - which also serves as a backup in case someone doesn't get their
+message.
+
+- Note that later I'll want to control this 'email sending problem' and perhaps add encryption so that
+even I, the creator of the script, cannot see the results of the random script (which wouldn't have been
+a problem if the script itself could send emails)
+
+- Do note that if the above had been possible, the very real risk of an email not reaching the destination
+is not to be ignored. A backup of sorts would have always been a good idea - which (likely) means
+encryption.
+
+- My family members have asked for an extra perk: that no one can be friends of or have a secret friend
+that is from the same house. So, I'll have to set teams and forbid choices from within those teams.
+This will complicate my code quite a bit more, I guess. Maybe there is an easy way to do it. Mhhh.
+
 --snip--
 

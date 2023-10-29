@@ -2,18 +2,7 @@
 
 # The idea is to build a program that takes an argument - the name of the file you want to have added to the dotfiles.
 
-# Things the program does:
-
-# Have a baseline path, like '[/home/opqam/dotfiles/]' - if the user presses enter, it will move on. Otherwise the user can specify the path
-
-# Now we have the path and we have the file we want to add.
-
-# We need to:
-#
-# 1 - 'ln <file> <path>'
-# 2 - cd <path>
-# 3 - git add <file>
-# 4 - git commit -m "Added control version to file <file>"
+# Please be inside the folder where the file you want to version control is - WIP
 
 # Making sure we have at least one argument
 if [ $# -lt 1 ]; then
