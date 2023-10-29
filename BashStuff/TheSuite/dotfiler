@@ -1,0 +1,79 @@
+#!/bin/bash
+
+# The idea is to build a program that takes an argument - the name of the file you want to have added to the dotfiles.
+
+# Things the program does:
+
+# Have a baseline path, like '[/home/opqam/dotfiles/]' - if the user presses enter, it will move on. Otherwise the user can specify the path
+
+# Now we have the path and we have the file we want to add.
+
+# We need to:
+#
+# 1 - 'ln <file> <path>'
+# 2 - cd <path>
+# 3 - git add <file>
+# 4 - git commit -m "Added control version to file <file>"
+
+# Making sure we have at least one argument
+if [ $# -lt 1 ]; then
+	echo "Please enter at least one argument."
+	exit 1
+fi
+
+dotPath="/home/opqam/dotfiles"
+
+echo "Adding version control to $1"
+SelectedPath="$dotPath"
+
+echo "Path to dotfiles folder [$dotPath]:"
+read userInput
+
+
+# If user input is entered, then...
+if [ -n "$userInput" ]; then
+	SelectedPath="$userInput"
+	
+	# Create directory if it doesn't exist
+	mkdir -p "$SelectedPath"                                   # (1)
+
+fi
+
+echo "Saving to $SelectedPath"
+
+if ! command -v git &> /dev/null; then                             # (2)
+	echo "Git is not installed in this system. Installing:"
+	
+# Checking to see which version of Linux we're using
+	if command -v apt-get install &> /dev/null; then
+		sudo apt update -y && sudo apt install git -y
+	elif command -v yum install &> /dev/null; then
+		sudo yum -y update && sudo yum -y install git
+	elif command -v dnf install &> /dev/null; then
+		sudo dnf -y update && sudo dnf -y install git
+	elif command -v pacman install &> /dev/null; then
+		sudo pacman -Syu --noconfirm && sudo pacman -S --noconfirm git
+	else
+		echo "Your distribution isn't supported. Please install git."
+		exit 2
+	fi
+	
+fi
+
+# Create HardLink
+ln "$1" "$SelectedPath/$1"
+
+# Move to dotfiles folder
+cd "$SelectedPath"
+
+# Version control
+git add "$1"
+git commit -m "Added version control to $1"
+
+# NOTES:
+#
+# (1) This is creating the require path. Meaning all folders in the path if they
+#     don't exist
+#
+# (2) Check to see if Git is installed
+#
