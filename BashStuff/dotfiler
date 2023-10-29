@@ -35,14 +35,13 @@ if [ -n "$userInput" ]; then
 	SelectedPath="$userInput"
 	
 	# Create directory if it doesn't exist
-	mkdir -p "$SelectedPath"           # Issue - recursively make path
+	mkdir -p "$SelectedPath"                                   # (1)
 
 fi
 
 echo "Saving to $SelectedPath"
 
-# Check to see if Git is installed
-if ! command -v git &> /dev/null; then
+if ! command -v git &> /dev/null; then                             # (2)
 	echo "Git is not installed in this system. Installing:"
 	sudo apt update -y && sudo apt install git -y
 fi
@@ -56,3 +55,11 @@ cd "$SelectedPath"
 # Version control
 git add "$1"
 git commit -m "Added version control to $1"
+
+# NOTES:
+#
+# (1) This is creating the require path. Meaning all folders in the path if they
+#     don't exist
+#
+# (2) Check to see if Git is installed
+#
