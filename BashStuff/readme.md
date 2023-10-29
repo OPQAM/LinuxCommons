@@ -28,3 +28,8 @@ is for personal use, so I have my preference).
   appropriate folder.
 
 - Finally, we run git inside the appropriate folder, in order to push the changes relative to the folder.
+
+- New addenda: now the script can run for many other linux distros.
+
+--snip--
+

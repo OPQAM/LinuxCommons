@@ -43,7 +43,21 @@ echo "Saving to $SelectedPath"
 
 if ! command -v git &> /dev/null; then                             # (2)
 	echo "Git is not installed in this system. Installing:"
-	sudo apt update -y && sudo apt install git -y
+	
+# Checking to see which version of Linux we're using
+	if command -v apt-get install &> /dev/null; then
+		sudo apt update -y && sudo apt install git -y
+	elif command -v yum install &> /dev/null; then
+		sudo yum -y update && sudo yum -y install git
+	elif command -v dnf install &> /dev/null; then
+		sudo dnf -y update && sudo dnf -y install git
+	elif command -v pacman install &> /dev/null; then
+		sudo pacman -Syu --noconfirm && sudo pacman -S --noconfirm git
+	else
+		echo "Your distribution isn't supported. Please install git."
+		exit 2
+	fi
+	
 fi
 
 # Create HardLink
