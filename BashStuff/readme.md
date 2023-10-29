@@ -33,3 +33,21 @@ is for personal use, so I have my preference).
 
 --snip--
 
+- Created the 'secretsanta' script. My family wanted me to write a script that would take their names,
+assort them and then return a secret friend. Meaning that everyone would have a secret friend, there would
+be no repetitions, no closed couples, and no one woul be left out.
+
+- Every person is then to be informed, through email, on who is their secret friend. That is the person
+they'll buy a christmas gift this year. This way we can all give a gift to every kid, and still have one 
+surprise for a single adult.
+
+- The code is mostly done - at least the gist of it. Now I need to organize it and find out how I'll
+send the emails.
+
+- By creating a simple list of names, shuffling it and then having each person give a gift to every next 
+person, all the issues that might have arisen are no more.
+
+- Now I'm going to create an email, and see if I can work with *sendmail*.
+
+--snip--
+
