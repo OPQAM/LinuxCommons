@@ -69,3 +69,8 @@ This will complicate my code quite a bit more, I guess. Maybe there is an easy w
 
 --snip--
 
+Mon Oct 30 01:14:22 PM WET 2023
+
+- Finished the SecretSanta script. It took me much longer than expected, since I had to use stuff I simply didn't know in Bash. It would have been much easier to do it in Python, haha. Anyway, it's done and ready.
+
+--snip--
