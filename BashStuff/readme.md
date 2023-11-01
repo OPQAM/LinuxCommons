@@ -81,4 +81,8 @@ See IssueREADME.md
 
 --snip--
 
+- The secret santa script works... not always. Sometimes it hangs at the end. It's a coin toss, really.
+I don't know why this is happening, but I'm suspecting that the shuffle function is doing something funky.
+I suspect that Bash isn't the best or easiest language to pull this stuff. Python would surely be better.
 
+--snip--
