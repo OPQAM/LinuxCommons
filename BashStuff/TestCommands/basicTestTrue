@@ -1,0 +1,6 @@
+#!/bin/bash
+
+FILE=~/.bashrc
+
+test -f "$FILE"             	# Testing: this is verifying if the variable is a file
+echo $?				# If we then test, we'll see that the result is true (0) 
