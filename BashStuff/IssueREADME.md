@@ -13,3 +13,7 @@ don't seem to be doing pretty much anything (well, the startup script is actuall
 pulling stuff from the repos... so that's something).
 
 Really need to check this and make it work.
+
+update: 
+IF I add by hand the commands eval $(ssh-add -s) and ssh-add ~/.ssh/id_rsa then all is
+ fine. If a script adds it, it gets auto-removed. I don't know where this comes from.
