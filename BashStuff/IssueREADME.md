@@ -17,3 +17,4 @@ Really need to check this and make it work.
 update: 
 IF I add by hand the commands eval $(ssh-add -s) and ssh-add ~/.ssh/id_rsa then all is
  fine. If a script adds it, it gets auto-removed. I don't know where this comes from.
+If I then run ssh-add -l, there is no issue whatsoever. The agent sticks and is loaded.
