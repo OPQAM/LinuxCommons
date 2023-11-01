@@ -1,5 +1,4 @@
 Sat 28 Oct 16:58:52 WEST 2023
-
 - I've just finished my last version of my calculator
 
 - I had no idea, but *bc* (basic calculator), on which my program depends,
@@ -12,7 +11,6 @@ if they want to install the program.
 --snip--
 
 Sun 29 Oct 14:54:57 WET 2023
-
 - Created 'dotfiler', a program that can take on a parameter (the file
 that we want to send to our dotfiles folder).
 
@@ -70,13 +68,17 @@ This will complicate my code quite a bit more, I guess. Maybe there is an easy w
 --snip--
 
 Mon Oct 30 01:14:22 PM WET 2023
-
-- Finished the SecretSanta script. It took me much longer than expected, since I had to use stuff I simply didn't know in Bash. It would have been much easier to do it in Python, haha. Anyway, it's done and ready.
+- Finished the SecretSanta script. It took me much longer than expected, since I had to use stuff I simply 
+didn't know in Bash. It would have been much easier to do it in Python, haha. Anyway, it's done and ready.
 
 --snip--
 
 Wed  1 Nov 20:54:09 WET 2023
 
 - Created the agentLoader. It loads the ssh agent and points it to the LOCAL ssh key
+- Deleted it from the PATH. No point. The issue with automatically unloading agents must be solved first.
+See IssueREADME.md
 
 --snip--
+
+
