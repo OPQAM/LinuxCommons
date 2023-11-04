@@ -3,6 +3,7 @@ I'm keeping and maintaining this repo, and others, mostly for myself, in order t
 Since this is Repo 1, I'll be adding here an index of sorts:
 
 - **LinuxCommons** is this very repository, where I keep all things related to Linux. From Bash scripting to automation and tools.
+- the Commons will continur to focus for a while on Bash scripting, but I'll want to add troubleshooting issues, Linux class notes, etc.
 
 - **MigratingCoconuts** keeps all things Python related. As with the Commons repository, it's all still very bare bones and in need of organization.
 
