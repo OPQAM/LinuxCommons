@@ -909,3 +909,21 @@ It's a mess, and sometimes it doesn't work. But:
 **.kill purge**                                              (Windows 7/8 and 10)
 
 Word of advice: use them all. And if that fails, you can [just do this](https://i0.wp.com/www.putertutor.co.uk/wp-content/uploads/2022/03/turn-it-off-and-on-again.jpg?fit=602%2C328&ssl=1).
+
+---
+
+<br> 
+
+### TCP WRAPPERS
+
+tbd
+
+---
+
+---
+
+<br> 
+
+### APACHE
+
+---
