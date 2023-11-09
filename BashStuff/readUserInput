@@ -1,0 +1,17 @@
+#!/bin/bash
+
+read -p "Enter your name, please: " NAME               # (1)
+
+echo "You name is $NAME"
+
+echo "My mistake. Please enter your first and last name:"
+
+read FNAME LNAME
+
+echo "Got it! Well met, $FNAME $LNAME."
+
+
+#NOTES:
+#
+# (1) Yet another nice way to use the *read* command
+#
