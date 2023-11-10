@@ -86,3 +86,11 @@ I don't know why this is happening, but I'm suspecting that the shuffle function
 I suspect that Bash isn't the best or easiest language to pull this stuff. Python would surely be better.
 
 --snip--
+
+Addendum:
+
+I want to finish my current Linux book + systemd video and little tidbits like that.
+TODO: more Linux CTFs, the SysAdmin book (hopefully Santa will play nice this year), then I also have to
+finish soon Linux Essential and the Linux Journey site. Near future: some Cert.
+
+--snip--
