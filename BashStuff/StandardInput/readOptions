@@ -1,0 +1,24 @@
+#!/bin/bash
+
+
+# Using read oprions, such as -t
+
+if read -t 10 -sp "Enter secret passphrase > " secret_pass; then           # (1) (2) (3)
+	echo -e "\nSecret passphrase = '$secret_pass'"                     # (4)
+else
+	echo -e "\nInput timed out" >&2
+	exit 1
+fi
+
+
+
+
+#NOTES:
+#
+# (1) '-t' sets a timeout, after which there is a non-zero exit
+#
+# (2) '-s' is silent mode. The inputed characters aren't sent to the terminal
+#
+# (3) '-p' displays a prompt for input
+#
+# (4) '-e' allows the interpretation of backslash escapes
