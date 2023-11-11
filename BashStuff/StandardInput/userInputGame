@@ -1,0 +1,42 @@
+
+#!/bin/bash
+
+land="dark"
+character="malevolent man"
+
+echo "This is a small game to practice reading user input and loops"
+
+read -p "Welcome to our game! Enter your name and surname, please: " FNAME LNAME  
+
+echo "Welcome $FNAME $LNAME! Let's start the game..."
+
+
+while [ true ]; do
+echo "$FNAME, you are walking through a $land patch of the woods, and you notice that someone is watching you."
+echo "It's a $character."
+
+DECISION=""
+
+read -p "Do you say something? (y/n)" DECISION
+
+if [ "$DECISION" = "y" ]
+then
+	echo "You decide to engage the man in conversation."
+	echo ""
+	land="light"
+else
+	echo "You decide to ignore the man and move on."
+	echo ""
+	character="nice man"
+fi 
+
+if [ "$land" = "light" ] && [ "$character" = "nice man" ]
+then
+	echo "All is good in the world.."
+	echo "The End"
+	exit 0
+else
+	echo "There is still something amiss... you carry on."
+	echo ""
+fi
+done
