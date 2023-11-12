@@ -1,0 +1,16 @@
+#!/bin/bash
+
+# This while loop will eventually end, but the user can add x tokens
+
+
+count=10
+
+while [[ "$count" -ge 1 ]]; do
+	echo "Current count: $count"
+	added_value=0
+	read -p "How much do you want to add to the counter: " added_value
+	count=$((count + added_value - 1))
+	echo "Count - 1: $count"
+done
+
+echo "Game Over"

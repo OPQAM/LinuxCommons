@@ -10,3 +10,5 @@ These are copies of the shell and it envionment athat are use to
 execute the command in the pipeline. When the process is finished,
 the copy is destroyes. Thus, such copies (subshells) simply
 cannot alter the environment of its parent process.
+Sun 12 Nov 14:45:55 WET 2023
+**validatingInput** Summing up previous knowledge on input validation
