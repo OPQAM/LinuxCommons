@@ -3,7 +3,7 @@
 # A script to check some system info
 
 
-DELAY=1 # time before returning results
+DELAY=3 # time before returning results
 
 while [[ "$REPLY" != 0 ]]; do
 	clear
@@ -19,10 +19,10 @@ while [[ "$REPLY" != 0 ]]; do
 	_EOF_
 	read -p "Enter selection [0-4] > "
 
-	if [[ "$REPLY" =~ ^[0-3]$ ]]; then
+	if [[ "$REPLY" =~ ^[0-4]$ ]]; then
 		if [[ $REPLY == 0 ]]; then
 			echo ""
-			sleep "$DELAY"
+			sleep 1
 			break
 		fi
 		if [[ $REPLY == 1 ]]; then
@@ -30,11 +30,11 @@ while [[ "$REPLY" != 0 ]]; do
 			uptime
 			sleep "$DELAY"
 		fi
-		if [[ "$REPLY" == 2 ]]; then
+		if [[ $REPLY == 2 ]]; then
 			df -h
 			sleep "$DELAY"
 		fi
-		if [[ "$REPLY" == 3 ]]; then
+		if [[ $REPLY == 3 ]]; then
 			if [[ "$(id -u)" -eq 0 ]]; then
 				echo "Home Space Utilization (all users)"
 				du -sh /home/*
@@ -44,13 +44,14 @@ while [[ "$REPLY" != 0 ]]; do
 			fi
 			sleep "$DELAY"
 		fi
-		if [[ "$REPLY" == 4 ]]; then
-			acpi > 1                     # I need to send this to the terminal
+		if [[ $REPLY == 4 ]]; then
+			acpi -V                     # I need to send this to the terminal
 			sleep "$DELAY"
-	else
-		echo "Invalid entry."                # This is always runnin no matter what
-		sleep "$DELAY"
 		fi
+	else
+		echo "Invalid entry."                # This is always running no matter what(problem)
+		sleep "$DELAY"
+		
 	fi
 done
 echo "Program terminated."
