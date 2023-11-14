@@ -71,6 +71,28 @@ This will complicate my code quite a bit more, I guess. Maybe there is an easy w
 
 Mon Oct 30 01:14:22 PM WET 2023
 
-- Finished the SecretSanta script. It took me much longer than expected, since I had to use stuff I simply didn't know in Bash. It would have been much easier to do it in Python, haha. Anyway, it's done and ready.
+- Finished the SecretSanta script. It took me much longer than expected, since I had to use stuff I
+simply didn't know in Bash. It would have been much easier to do it in Python, haha. 
+Anyway, it's done and ready.
 
 --snip--
+
+Tue Nov 14 02:54:24 PM WET 2023
+
+- I'm now trying to solve the issues with the autoPull.sh scrip. But it's not been easy. I'm comparing the
+configuration and associated files between machines, since the Mint machine is working properly and
+everything else is not.
+
+- Still, it is to be noted that this autoPulling script is also, for some reason I cannot fathom, 
+pulling or copying some stuff from my repos directly into my user's (or root) home folders. This is
+very bad form, but I don't see anything in the script that oculd justify this. Maybe an improper use
+of the git commands, that is sending stuff to those folders?
+
+- So far, I've noticed that one of the other machines (Debian) has SSH_AUTHO_SOCK= and then a temp path
+while the Mint machine has a /run/user/... path, which is odd. Also, the Debian machine has a config
+ssh file, and the Mint doesn't.
+
+- Need to carry on investigating, and test the other machines.
+
+--snip--
+
