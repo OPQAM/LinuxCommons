@@ -1,0 +1,21 @@
+#!/bin/bash
+
+
+# The AND operator (&&)
+mkdir temp && cd temp
+
+# In other words, we're trying to create 'temp/', and IF we actually make that folder,
+# THEN we'll go into temp/
+
+
+# The OR operator (||)
+[[ -d temp ]] || mkdir temp
+
+# In other words, we are testing to check if the folder 'temp/' exists. And, IF it
+# doesn't, THEN we get to create said folder
+
+# Alternatively
+[[ -d temp ]] || exit 1
+
+# So, if temp doesn't exist, the second part of the script runs, returning an exit (1)
+

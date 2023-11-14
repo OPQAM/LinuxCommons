@@ -1,0 +1,6 @@
+#!/bin/bash
+
+FILE=~/.bashrc
+
+[ -L "$FILE" ]            	# Testing: this is verifying if the variable is a symlink
+echo $?				# If we then test, we'll see that the result is false (1) 

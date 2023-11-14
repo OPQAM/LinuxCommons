@@ -1,0 +1,14 @@
+#!/bin/bash
+
+# tiny program to load the ssh agent, point it to the local ssh private key 
+# and then check if it's running properly
+# Added a little user feedback
+
+echo "Loading the SSH agent:"
+eval $(ssh-agent -s)
+echo ""
+ssh-add ~/.ssh/id_rsa
+echo ""
+echo "Private key added. Verification:"
+ssh-add -l
+echo ""

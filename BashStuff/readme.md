@@ -1,5 +1,4 @@
 Sat 28 Oct 16:58:52 WEST 2023
-
 - I've just finished my last version of my calculator
 
 - I had no idea, but *bc* (basic calculator), on which my program depends,
@@ -12,7 +11,6 @@ if they want to install the program.
 --snip--
 
 Sun 29 Oct 14:54:57 WET 2023
-
 - Created 'dotfiler', a program that can take on a parameter (the file
 that we want to send to our dotfiles folder).
 
@@ -70,10 +68,37 @@ This will complicate my code quite a bit more, I guess. Maybe there is an easy w
 --snip--
 
 Mon Oct 30 01:14:22 PM WET 2023
+<<<<<<< HEAD
 
 - Finished the SecretSanta script. It took me much longer than expected, since I had to use stuff I
 simply didn't know in Bash. It would have been much easier to do it in Python, haha. 
 Anyway, it's done and ready.
+=======
+- Finished the SecretSanta script. It took me much longer than expected, since I had to use stuff I simply 
+didn't know in Bash. It would have been much easier to do it in Python, haha. Anyway, it's done and ready.
+
+--snip--
+
+Wed  1 Nov 20:54:09 WET 2023
+
+- Created the agentLoader. It loads the ssh agent and points it to the LOCAL ssh key
+- Deleted it from the PATH. No point. The issue with automatically unloading agents must be solved first.
+See IssueREADME.md
+
+--snip--
+
+- The secret santa script works... not always. Sometimes it hangs at the end. It's a coin toss, really.
+I don't know why this is happening, but I'm suspecting that the shuffle function is doing something funky.
+I suspect that Bash isn't the best or easiest language to pull this stuff. Python would surely be better.
+
+--snip--
+
+Addendum:
+
+I want to finish my current Linux book + systemd video and little tidbits like that.
+TODO: more Linux CTFs, the SysAdmin book (hopefully Santa will play nice this year), then I also have to
+finish soon Linux Essential and the Linux Journey site. Near future: some Cert.
+>>>>>>> 4adf0b92418b60bcdb95d2e4567f59f7ce7e752b
 
 --snip--
 

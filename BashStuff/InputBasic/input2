@@ -1,0 +1,38 @@
+#!/bin/bash
+
+
+# We want to read user input, and integer, and evaluate it
+
+echo -n "Please enter an integer: "                               # (1)
+read int
+
+if [[ "$int" =~ ^-?[0-9]+$ ]]; then
+	if [ "$int" -eq 0 ]; then                                 # (2)
+		echo "$int is zero."
+	
+	else
+		if [ "$int" -lt 0 ]; then
+			echo "$int is a negative number."
+		else
+			echo "$int is a positive number."
+		fi
+	fi
+	
+	if [ $((int % 2)) -eq 0 ]; then
+		echo "And $int is an even number."
+	else
+		echo "And $int is an odd number."
+	fi
+	
+else
+	echo "Invalid input!" >&2
+	exit 1
+fi
+
+#NOTES:
+#
+# (1) -n will suppress a new line, letting the user write on the same line
+#
+# (2) do note the types of brackets
+#
+
