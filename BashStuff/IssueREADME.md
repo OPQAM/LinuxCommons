@@ -71,4 +71,8 @@ And so it was. Instead of running the script normally, I did source /autoPull.sh
 
 --snip--
 
-Addendum: the issue seems to be a bit more complicated... damn. :D
+Addendum: the issue seems to be a bit more intricate.
+Now I can make it work on all my machines, I just cannot create the logs + run with source at the same time. Apparently that creates some sort of endless loop and the terminal freezes. Ok, found that issue. Why is this happening?
+
+- Also, the Mint machine is not requiring the Agent to be loaded. The key is just sitting there.
+Question: is this because the agent is loaded at startup and then the key remains there? I really need to compare those config files.
