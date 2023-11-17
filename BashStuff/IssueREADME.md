@@ -71,3 +71,4 @@ And so it was. Instead of running the script normally, I did source /autoPull.sh
 
 --snip--
 
+Addendum: the issue seems to be a bit more complicated... damn. :D
