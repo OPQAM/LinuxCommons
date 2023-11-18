@@ -1,0 +1,25 @@
+#!/bin/bash
+
+# Unanticipated Exansions
+
+number=
+
+if [ "$number" = 1 ]; then
+	echo "Number is equal to 1."
+else
+	echo "Number is not equal to 1."
+fi
+
+# NOTES:
+#
+# (1) Missing the value '1'
+#
+# Error:
+# unanticipatedExpansions3: line 7: [: =: unary operator expected
+#
+# As the variable 'number' has no actual value, inside [ ] 
+# only '= 1' is being checked. Since the error was generated, 
+# the if command is executing the second half of the command, 
+# and the program actually exectures the 'else' part.
+#
+# This can be solved, by addin commas to the variable "$number" = 1

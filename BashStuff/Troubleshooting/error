@@ -1,1 +1,1 @@
-./commonErrors: line 8: unexpected EOF while looking for matching `"'
+./unanticipatedExpansions3: line 7: [: =: unary operator expected

@@ -1,0 +1,26 @@
+#!/bin/bash
+
+# Missing or Unexpected Tokens
+
+number=1
+
+if [ $number = 1 ] then                        # (1)
+	echo "Number is equal to 1."
+else
+	echo "Number is not equal to 1."
+fi
+
+# NOTES:
+#
+# (1) removed the semicolon (did not complete the compound command)
+#
+# Error:
+#
+#line 9: syntax error near unexpected token `else'
+#line 9: `else'
+#
+# So, '[' is basically a synonym for 'test', everything following 
+# is a list of elements to be tested, so we're getting 'then' added
+# to that mix, which is legal. The 'echo' command is also legal.
+# But it all stops when the shell meets a reserved word: 'else'.
+# Thus, at line 9, the program stops and gives us our error
