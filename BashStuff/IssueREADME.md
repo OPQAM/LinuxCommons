@@ -90,6 +90,5 @@ I'm instead redirecting information into log files (but might do without that al
 
 - For now the script is doing exactly what it's supposed to do. I'll edit it soon and post here (the non-Mint version, which is more involved)
 
+Addendum: actually, no. I just confirmed it. 'Seahorse' is loading my SSH key and loading it on startup. So that solves the whole issue. QED
 --snip--
-
-
