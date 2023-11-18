@@ -1,0 +1,10 @@
+#!/bin/bash
+
+# in order to redirect a file to the loop , we place the redirection operator after the 'done' statement
+# just an example, won't work properly with a random file
+while read distro version release; do
+	printf "Distro: %s\tVersion: %s\tReleased: %s\n" \
+	"$distro" \
+	"$version" \
+	"$release"
+done < sample.txt
