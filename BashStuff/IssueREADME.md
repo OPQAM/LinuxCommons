@@ -71,8 +71,25 @@ And so it was. Instead of running the script normally, I did source /autoPull.sh
 
 --snip--
 
-Addendum: the issue seems to be a bit more intricate.
-Now I can make it work on all my machines, I just cannot create the logs + run with source at the same time. Apparently that creates some sort of endless loop and the terminal freezes. Ok, found that issue. Why is this happening?
+Sat Nov 18 12:27:09 PM WET 2023
 
-- Also, the Mint machine is not requiring the Agent to be loaded. The key is just sitting there.
-Question: is this because the agent is loaded at startup and then the key remains there? I really need to compare those config files.
+- It's at the same time a bit simples and more complicated.
+The reason why the Mint system is showing no issues has to do with Mint
+using some other process in order to load the key. I suspect that the
+agent is already automatically loading the keys at startup, and no more
+tinkering is needed.
+
+- So, on my Mint machine, I'm just running the autopulls, not even adding
+to the log files. I'm fine with not entering a passphrase on my home machineand simply check how my work is, compared to what's in GitHub.
+
+- For my debian (and other) machines, I'm sourcing the script, but I had to
+remove the exec commands in it, to avoid endless loops that froze my treminal.
+I'm instead redirecting information into log files (but might do without that altogether, since that was a mostly a way to get a grip on what was happening, and the 'live feedback' is useful to learn immediatelly what repos need attention).
+
+- I still don't know why Mint is automatically loading and 'solving' this issue, but I bet it has something to do with some specific tool, like gnome-keyring or something.
+
+- For now the script is doing exactly what it's supposed to do. I'll edit it soon and post here (the non-Mint version, which is more involved)
+
+--snip--
+
+
