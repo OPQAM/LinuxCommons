@@ -1,0 +1,13 @@
+#!/bin/bash
+
+# testing if the inputed value is a numeral, from 0 to 3
+echo "Please enter a value from 0 to 3: "
+read REPLY
+
+if [[ $REPLY =~ ^[0-3]$ ]]; then
+	echo "Valid Response."
+	exit 0
+else
+	echo "Invalid Response."
+	exit 1
+fi

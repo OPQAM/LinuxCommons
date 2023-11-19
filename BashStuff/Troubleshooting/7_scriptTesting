@@ -1,0 +1,19 @@
+#!/bin/bash
+
+if [[ -d $dir_name ]]; then 
+	if cd $dir_name; then
+		rm *
+	else
+		echo "Cannot cd into '$dir_name'" >&2
+		exit 1
+	fi
+#else                                                          # (1)
+#	echo "No such directory: '$dir_name'" >&2
+#	exit 1
+fi
+
+# NOTES:
+#
+# (1) We have commented out this whole section we are preventing its
+# execution. And then we can test to see if this removal has any
+# impact on the code

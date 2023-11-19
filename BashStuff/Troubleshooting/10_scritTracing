@@ -1,0 +1,22 @@
+#!/bin/bash
+
+number=1
+
+echo "number=$number"               #DEBUG
+set -x # Turn On Tracing                                 # (1)
+if [ $number = 1 ]; then
+	echo "Number is equal to 1."
+else
+	echo "Number is not equal to 1."
+fi 
+set +x # Turn Off Tracin                                 # (2)
+
+
+# NOTES:
+#
+# (1) (2) As shown, we are setting the tracing program on this part of
+# the script
+#
+# Our DEBUG line will give us the value of the given number, and the
+# tracing will give us the 'calculations' that are taking place so that
+# we can closely monitor what's going on.

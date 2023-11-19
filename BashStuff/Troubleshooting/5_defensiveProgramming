@@ -1,0 +1,38 @@
+#!/bin/bash
+
+# We take a few steps in order to avoid logical errors, which would run but could
+# have some pretty dire effects.
+#
+# As an example, we want to delete files inside a specific directory, without
+# risking deletion of other directories or files.
+
+# the directory exists?
+if [[ ! -d "$dir_name" ]]; then
+	echo "No such directory: '$dir_name'" >&2
+	exit 1
+fi
+
+# can we cd into it?
+if ! cd "$dir_name"; then
+	echo "Cannot cd to '$dir_name'" >&2
+	exit 1
+fi
+
+# can we remove the file(s)?
+if ! rm ./*; then                                            # (1)
+	echo "File deletion failed. Check results" > &2
+	exit 1
+
+# NOTES:
+#
+# (0) In any case of a negative, a message is sent to stderr
+#
+# (1) It is always a good idea to add './' to indicate that we are precisely on
+# the current folder and that we're looking for any file with any value.
+# Why? Because Linux accepts files that start with a '-' or a '*', just to state
+# two examples. These characters, although frequently used as commands or 
+# wildcards are pervectly valid characters to include in file names.
+#
+# Further, to allow for portability between systems, filenames should start
+# with a letter (a-z), upper or lower case, or a number (0-9) and it can also
+# contain (after that) a period, hyphen, or underscore.

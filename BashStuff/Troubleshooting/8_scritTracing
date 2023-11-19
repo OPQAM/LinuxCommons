@@ -1,0 +1,22 @@
+#!/bin/bash
+echo "Enter folder name: "
+read dir_name
+echo "Preparing to delete files" >&2                          # (1)  
+if [[ -d $dir_name ]]; then 
+	if cd $dir_name; then
+		echo "Deleting files" >&2                             # (2)     
+		rm *
+	else
+		echo "Cannot cd into '$dir_name'" >&2
+		exit 1
+	fi
+else                                                          
+	echo "No such directory: '$dir_name'" >&2
+	exit 1
+fi
+echo "File deletion complete" >&2                             # (3)
+
+# NOTES:
+#
+# (1) (2) (3) By ading these echo messages, and sending the to stderr
+# we are standing them out from normal output

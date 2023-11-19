@@ -1,0 +1,16 @@
+#!/bin/bash -x
+
+number=1
+
+if [ $number = 1 ]; then
+	echo "Number is equal to 1."
+else
+	echo "Number is not equal to 1."
+fi
+
+# NOTES:
+#
+# (0) We are activating script tracing by using '-x'
+# We ca also selectively activate script tracing using '-x' and 
+# finishing with '+x' at any selection points withing the script.
+# Please see the next example
