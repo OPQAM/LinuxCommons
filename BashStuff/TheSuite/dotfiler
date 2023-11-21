@@ -33,14 +33,14 @@ read userInput
 # If user input is entered, then...
 if [ -n "$userInput" ]; then
 	SelectedPath="$userInput"
-	
-	# Create directory if it doesn't exist
-	mkdir -p "$SelectedPath"                                   # (1)
-
 fi
 
+#Create the folder regardless
+mkdir -p "$SelectedPath"                                           # (1)
 echo "Saving to $SelectedPath"
 
+
+# Verify issue here... git isn't present in th efolder and the program is stopping
 if ! command -v git &> /dev/null; then                             # (2)
 	echo "Git is not installed in this system. Installing:"
 	
