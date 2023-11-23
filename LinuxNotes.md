@@ -839,6 +839,8 @@ The folder */srv/samba/share* needs to be created and total permissions should b
 **.chmod -R 777 /srv/samba/share**
 **.systemctl restart smbd**
 
+NOTE: If we want a user to, at the very least, be able to enter a folder, we'll need to give that user reading and executing permissions (in general chmod -R 775 -> so that other users can enter)
+
 (in the Windows machine, go to the address toolbar in files)
 
 **\\<destination IP\>\shared_folder**
