@@ -871,9 +871,9 @@ We'll need to add users for access:
 **.smbpasswd –e “utilizador”**              (enables a previously disabled user)
 **.smbpasswd –x “utilizador”**              (removes a user)
 
-**.pbedit -L**                              (verify which users are in the system currently)
+**.pdbedit -L**                              (verify which users are in the system currently)
 
-We can add these to *smb.conf* in order to give access to certain users. Ex:
+We must add these to *smb.conf* in order to give access to certain users. Ex:
 
 	write list = @editors,alex              (writing access to the 'editors' group and to user 'alex')
 	read list = @editors
@@ -908,9 +908,12 @@ We can do that with the command
 It's a mess, and sometimes it doesn't work. But:
 
 **.net use * /DELETE**                                       (Windows 7/8)
-**.kill purge**                                              (Windows 7/8 and 10)
+**.klist purge**                                              (Windows 7/8 and 10)
 
-Word of advice: use them all. And if that fails, you can [just do this](https://i0.wp.com/www.putertutor.co.uk/wp-content/uploads/2022/03/turn-it-off-and-on-again.jpg?fit=602%2C328&ssl=1).
+Word of advice: use them both. And if that fails, you can [just do this](https://i0.wp.com/www.putertutor.co.uk/wp-content/uploads/2022/03/turn-it-off-and-on-again.jpg?fit=602%2C328&ssl=1).
+
+
+NOTE: despite having given create mask = 0777 and directory mask = 0777 to a folder in samba, folders created in samba got 777, but files only had 766. There is something else not giving executable permissions to both group and others. I read that umask might work subtractively.. but upon doing 'umask' I got the result 022. So, one would likely expect 755, not 766. What could cause this?
 
 ---
 
