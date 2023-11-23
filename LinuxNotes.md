@@ -103,13 +103,13 @@ The [SSH protocol](https://en.wikipedia.org/wiki/Secure_Shell) allows for secure
 
 	port 22
 
-	AllowUsers <user>                    (users that can access the system via SSH)
+	AllowUsers <user\>                    (users that can access the system via SSH)
 
-	DenyUsers <user1> <user2>            (users that are forbidden from doing so)
+	DenyUsers <user1\> <user2\>            (users that are forbidden from doing so)
 
-	AllowGroups <group1> <group2>        (groups that can access the system via SSH)
+	AllowGroups <group1\> <group2\>        (groups that can access the system via SSH)
  
-	DenyGroups <group1> <group2>         (groups that are forbidden from doing so)
+	DenyGroups <group1\> <group2\>         (groups that are forbidden from doing so)
 
 	PermitRooLogin YES                   (to allow root access via SSH)
 
@@ -171,7 +171,7 @@ The [FTP protocol](https://en.wikipedia.org/wiki/FTP) is used to transfer files 
 
 	chroot_list_enable=YES               (allows some users to not be restricted by the chroot)
 
-	chroot_list_file=/etc/<filename>     (specifies the file to tell which users)
+	chroot_list_file=/etc/<filename\>     (specifies the file to tell which users)
 
 
 
@@ -214,9 +214,9 @@ We are creating a self-signed certificate, valid for 365 days.
 
 ##### vsftpd.conf:
 
-	rsa_cert_file=etc/ssl/private/<file>
+	rsa_cert_file=etc/ssl/private/<file\>
 
-	rsa_private_key_file=/etc/ssl/private/<file>
+	rsa_private_key_file=/etc/ssl/private/<file\>
 
 	ssl_enable=YES
 
@@ -841,7 +841,7 @@ The folder */srv/samba/share* needs to be created and total permissions should b
 
 (in the Windows machine, go to the address toolbar in files)
 
-**\\<destination IP>\shared_folder**
+**\\<destination IP\>\shared_folder**
 
 We can define other types of access/authentication:
 
@@ -897,7 +897,7 @@ We can do that with the command
 
 **.mkdir /media/pc_windows**
 
-**.mount –t cifs –o username=user,password=password //<sharing_IP>/<sharing_name>/media/pc_windows**
+**.mount –t cifs –o username=user,password=password //<sharing_IP\>/<sharing_name\>/media/pc_windows**
 
 (if we want this command to automatically run at start, we should add this last line to a bash script, inside '/etc/rc.local', but add the command sleep 10 before mounting)
 
