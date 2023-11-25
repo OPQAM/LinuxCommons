@@ -901,7 +901,15 @@ We can do that with the command
 
 **.mount –t cifs –o username=user,password=password //<sharing_IP\>/<sharing_name\>/media/pc_windows**
 
-(if we want this command to automatically run at start, we should add this last line to a bash script, inside '/etc/rc.local', but add the command sleep 10 before mounting)
+Note: if we want this command to automatically run at start, we should add this last line to a bash script, inside the file '/etc/rc.local', but add the command sleep 10 before mounting:
+
+	#!/bin/sh –e
+	sleep 10
+	mount –t cifs –o username=utilizador,password=password //ip_partilha/nome_da_partilha
+	/media/pc_windows
+
+ (remember to make it an executable)
+
 
 #### Cleaning the Windows cache
 
