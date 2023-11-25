@@ -864,6 +864,7 @@ If we want for all files and folders to inherit upper layer permissions, we can 
 
 	inherit permissions = yes         (this will be considered before create mask and directory mask)
 
+
 We'll need to add users for access:
 
 **.smbpasswd –a “utilizador”**              (adds a user)
@@ -926,6 +927,94 @@ NOTE: despite having given create mask = 0777 and directory mask = 0777 to a fol
 ---
 
 <br> 
+
+### NIS - WIP
+
+ The Network Information Service, or [NIS](https://www.geeksforgeeks.org/linux-network-information-service/) (also known as the Yellow Pages) is a client–server [directory service](https://en.wikipedia.org/wiki/Directory_service) protocol for distributing system configuration data such as user and host names between computers on a computer network.
+
+#### Installation
+
+	.apt install nis
+
+
+#### Configuration (Server)
+
+**.vim /etc/ypserv.securenets**
+
+in here we can add the networks that we want to use (instead of everything being open by default)
+
+- Don't touch the local host lines, but otherwise comment out the *0.0.0.0	0.0.0.0*.
+Below we add *255.255.255.0	192.168.1.0* (as an example: mask, network IP)
+
+**.vim /etc/hosts**
+
+We should add the server's IP and the hostname (around the third line or so, right below our own server's name)
+
+- Create the file /etc/defaultdomain and add a single line with our domain name:
+mydomain.nis         (as an example)
+
+Restart all services:
+
+.systemctl restart rpcbind ypserv yppasswdd ypxfrd
+
+Enable them at strtup:
+
+.systemctl enable rpcbind ypserv yppasswdd ypxfrd
+
+Create a NIS database:
+
+./usr/lib/yp/ypinit -m
+
+-> We'll be asked for extra servers. If we just want this one, we can end with [ctrl] + D
+
+Adding users or groups:
+
+.make -C /var/yp
+
+#### Configuration (Client)
+
+- Also install nis
+
+- Edit /etc/yp.conf and add the following line at the end:
+
+domain (domain_name) server (server_ip)
+ex:
+domain mydomain.nis server 192.168.1.212
+
+Edit the file /etc/nsswitch.conf, adding the word nis 4 times:
+
+passwd:		files systemd nis
+group:		files systemd nis
+shadow:		files systemd nis
+...
+
+hosts:		files dns nis
+
+Create the file /etc/defaultdomain and add the domain name (like before)
+
+Edit the file /etc/pam.d/common-session, and add this line at the end to add a user's home directory the first time the user connects through NIS:
+
+session optional	pam_mkhomedir.so	skel=/etc/skel	umask=077
+
+Restart the service and then enable it:
+
+.systemctl restart rpcbind nscd ypbind
+.systemctl enable rpcbind nscd ypbind
+
+To change password, use the command:
+. yppasswd
+
+With ypcat passwd we can see what users have been created in the NIS server
+
+Domain name:
+
+.nisdomainname
+
+Reconfigure the service:
+
+.dpkg-reconfigure nis
+
+WIP
 
 ### TCP WRAPPERS
 
