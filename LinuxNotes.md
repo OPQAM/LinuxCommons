@@ -1018,7 +1018,48 @@ WIP
 
 ### TCP WRAPPERS
 
-tbd
+#### Config
+
+NOTE: to have vsftpd work with TCPWrappers, we nede to change the */etc/vsftpd.conf*, and add:
+
+	tcp_wrappers=yes
+
+#### Configuration
+
+Configure the files:
+/etc/hosts.allow
+/etc/hosts.deny
+
+syntax:
+
+(service: network or IP)
+
+exs:
+**(in hosts.allow)**
+sshd, vsftpd, telnet: 192.168.1.0/24, 192.168.1.10             (a network and a host are allowed)
+sshd, telnet: 192.168.230.0/24 EXCEPT 192.168.230.122          (Excepting a single address)
+vsftpd: server1, server2.atec.com                              (server1 = domain, second is the machine's name)
+vsftpd: .rh.grsip.pt                                           (all machines that end in that name)
+
+We can also use ', local' or ', paranoid' after a setting to, respectively, allow all local machines or, with paranoid, it will check with the DNS server to see if the name is associated with the IP (slow)
+
+**(in hosts.deny)**
+ALL: ALL                                             (all services and all IPs - to be blocked)
+
+NOTE: If there is any single match in hosts.allow, it stops there and it gets authorized.
+If nothing is found here, it will search in hosts.deny - to see if there are any matches there. If there are
+no matches, it will allow entry.
+
+NOTE: TCPWrappers reads each line one by one, in order. Be careful of the order we write them in.
+
+Example: we want to block 192.168.230.122. If we do it like this, it won't blocked:
+
+sshd, telnet: 192.168.230.0/24
+sshd: 192.168.230.0/24 EXCEPT 192.168.230.122
+
+The first line is read, and the IP goes through.
+
+NOTE: we can also do in 'hosts.allow' after any line ':allow' and at the end 'ALL: ALL: deny', thus not needing to use a 'hosts.deny' file. (optional)
 
 ---
 
