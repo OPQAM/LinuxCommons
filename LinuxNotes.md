@@ -1018,6 +1018,8 @@ WIP
 
 ### TCP WRAPPERS
 
+---
+
 #### Config
 
 NOTE: to have vsftpd work with TCPWrappers, we nede to change the */etc/vsftpd.conf*, and add:
@@ -1061,12 +1063,70 @@ The first line is read, and the IP goes through.
 
 NOTE: we can also do in 'hosts.allow' after any line ':allow' and at the end 'ALL: ALL: deny', thus not needing to use a 'hosts.deny' file. (optional)
 
----
-
----
 
 <br> 
 
 ### APACHE
 
 ---
+
+#### Installation
+
+. apt install apache2
+
+#### Configuration
+
+(we can now access directly, through web browser, our apache folder, by typing our IP address
+The page can be found at '/var/www/html/' - it's a file index.html)
+
+We can access it directly (it's the default) but if we add other files, we'll have to, for example, do 192.168.1.222/index3.html (in web browser)
+If there is no index.html, it will show a folder (on the browser) with all the existing files in that folder
+
+Nota: dar 'Refresh' à página com [CTRL] + F5
+
+We add vsftpd (install + write_enable=yes so that we can use it -> remember to restart the system) to send files to our folder
+
+- We can connect with vsftpd and send files.
+
+We can send files to the **user's own folder**, ofc. Then move the file to our '/var/www/html'
+
+IMPORTANT: mind the file permissions!
+
+We need to give reading rights to 'other' users.
+
+.chmod +r myFile.html
+
+OR
+
+.chmod 644 myFile.html
+
+We can check logs in:
+
+/var/log/apache2/access.log  (successful accesses to our page)
+/var/log/apache2/error.log   (failed accesses to our page)
+
+Use, for instance:
+.tail -15 /var/log/apache2/error.log                          (read from end, upwards)
+
+**As an alternative to sending files to the user's homefolder and then moving said files to our apache2 folder:**
+
+- We can use a symbolic link.
+
+Example:
+
+mkdir /home/myUser/webpage                               (keep webpages here)
+
+.ln -s /home/myUser/webpage/  /var/www/html/mySymLink
+
+**Atenção - Dar permissões:**
+(this is for Debian 12 onwards. Permissions are now different. The default permissions for homefolders are 700. Before Debian 12 it was 755. So we need to give executable permissions! Folders created inside that user's folder are, by default 755)
+
+.chmod +x /home/grsip
+
+Now we can access with the browser:
+
+192.168.1.222/mySymLink
+
+NOTE: our newly created webpage has been created by root, and thus we can't send files through vsftpd. We need do:
+
+chown -R myUser:myUser /home/myUser/webpage                   ('-R' for all content as well)
