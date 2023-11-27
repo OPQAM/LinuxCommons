@@ -329,6 +329,8 @@ File compression or [data compression](https://en.wikipedia.org/wiki/File_compre
 #### TAR (Grouping - 'use .tar')
 Tape archive, AKA ['tar'](https://www.geeksforgeeks.org/tar-command-linux-examples/) is an archiver and extractor.
 
+NOTE: be inside the folder where your 'to be' compressed liles and folders are located.
+
 > **. tar -cvf <file.tar\> <files.txt\> <folders\>** ... *(groups files or folder)*
 >
 > **. tar -xvf <file.tar\>** ... *(extracts archived tar file to our position)*
@@ -645,6 +647,10 @@ So we can, for example, upon getting a non 0 value, email the sysadmin.
 ### RSYNC
 ---
 
+#### Installation
+
+. apt install rsync
+
 The utility tool [rsync](https://en.wikipedia.org/wiki/Rsync) is an efficient way to transfer files between machines, by comparing the modification times and sizes of files.
 
 > **. rsync <option\> <file_to_copy_from\> <user\>@<host\>:<destination\>**
@@ -659,6 +665,9 @@ The utility tool [rsync](https://en.wikipedia.org/wiki/Rsync) is an efficient wa
 <br>
 
 #### Examples
+
+
+> **. rsync -zvh backup.tar /tmp/backups/** ... *(Copy/sync a directory in the same machine)*
 
 > **. rsync -avzh /data/ grsip@192.168.1.205:** ... *(forwarded to the user's home)*
 
