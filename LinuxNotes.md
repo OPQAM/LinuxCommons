@@ -329,7 +329,7 @@ File compression or [data compression](https://en.wikipedia.org/wiki/File_compre
 #### TAR (Grouping)
 Tape archive, AKA ['tar'](https://www.geeksforgeeks.org/tar-command-linux-examples/) is an archiver and extractor.
 
-> **. tar cvf /<file.tar\> <files.txt\> <folders\>** ... *(groups files or folder)*
+> **. tar -cvf /<file.tar\> <files.txt\> <folders\>** ... *(groups files or folder)*
 >
 > **. tar xvf <file.tar\>** ... *(extracts archived tar file)*
 >
@@ -540,6 +540,54 @@ cmd ---> Command
 **Notes:** *We can serve a similar purpose with **cron.deny**.*
 *If **cron.allow** exits it will stop the system from checking **cron.deny**.
 *Debian 12 doesn't have **/var/log/syslog** by default. We can check logs with, for example, **journalctl -u cron**.*
+
+Examples:
+
+__a.	Do a copy of the folder /USER into /root/user_back at the 10th of July at 8h:30am__
+	Min	Hour	DOM	MON	DOW	cmd
+	30	8	10	6	*	cp -r /USER > /root/user_back
+
+
+__b.	Restart SSH every workday at 8am__
+	Min	Hour	DOM	MON	DOW	cmd
+	0	8	*	*	1-5	systemctl restart ssh
+
+
+__c.	Restart SSH every workday, every hour, between 9am and 6pm__
+	Min	Hour	DOM	MON	DOW	cmd
+	0	9-18	*	*	1-5	systemctl restart ssh
+
+
+__d.	Execute ls –la every 10 minutes e place the result in a text file called ls_la.txt__
+	Min	Hour	DOM	MON	DOW	cmd
+	*/10	*	*	*	*	ls -la > ls_la.txt
+
+__e. Execute rm –rf /dump1/* every hour__
+	Min	Hour	DOM	MON	DOW	cmd
+	0	*	*	*	*	rm -rf /dump1/*
+
+__f.	Execute rm –rf /dump1/* once a day__
+	Min	Hour	DOM	MON	DOW	cmd
+	0	12	*	*	*	rm –rf /dump1/*
+
+__g.	Execute rm –rf /dump1/* once a week__
+	Min	Hour	DOM	MON	DOW	cmd
+	0	12	*/7	*	*	rm –rf /dump1/*
+(or...)
+	0	12	*	*	0	rm –rf /dump1/*
+
+__h.	Execute rm –rf /dump1/* once a month**__
+	Min	Hour	DOM	MON	DOW	cmd
+	0	12	1	*	*	rm –rf /dump1/*
+
+__i.	Execute rm –rf /dump1/* once a year__
+	Min	Hour	DOM	MON	DOW	cmd
+	0	12	1	1	*	rm –rf /dump1/*
+
+__j.	Make rm /home/someuser/tmp/* run every minute, non stop__
+	Min	Hour	DOM	MON	DOW	cmd
+ 	*  *  *  *  * rm /home/someuser/tmp/*
+
 
 <br>
 
