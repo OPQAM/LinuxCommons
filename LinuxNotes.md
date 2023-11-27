@@ -329,7 +329,7 @@ File compression or [data compression](https://en.wikipedia.org/wiki/File_compre
 #### TAR (Grouping - 'use .tar')
 Tape archive, AKA ['tar'](https://www.geeksforgeeks.org/tar-command-linux-examples/) is an archiver and extractor.
 
-> **. tar -cvf /<file.tar\> <files.txt\> <folders\>** ... *(groups files or folder)*
+> **. tar -cvf <file.tar\> <files.txt\> <folders\>** ... *(groups files or folder)*
 >
 > **. tar -xvf <file.tar\>** ... *(extracts archived tar file to our position)*
 >
