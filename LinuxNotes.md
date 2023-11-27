@@ -329,21 +329,21 @@ File compression or [data compression](https://en.wikipedia.org/wiki/File_compre
 #### TAR (Grouping - 'use .tar')
 Tape archive, AKA ['tar'](https://www.geeksforgeeks.org/tar-command-linux-examples/) is an archiver and extractor.
 
-> **. tar -cvf /<Path_to_File/file.tar\> <files.txt\> <folders\>** ... *(groups files or folder)*
+> **. tar -cvf /<file.tar\> <files.txt\> <folders\>** ... *(groups files or folder)*
 >
-> **. tar -xvf <Path_to_File/file.tar\>** ... *(extracts archived tar file to our position)*
+> **. tar -xvf <file.tar\>** ... *(extracts archived tar file to our position)*
 >
-> **. tar -xvf <Path_to_File/file.tar\> -C /location/** ... *(extracts to the specified location)*
+> **. tar -xvf <file.tar\> -C /location/** ... *(extracts to the specified location)*
 >
-> **. tar -rvf <Path_to_File/file.tar\> <file1\> <file2\>** ... *(appends a file or folder to a tar)*
+> **. tar -rvf <file.tar\> <file1\> <file2\>** ... *(appends a file or folder to a tar)*
 
 #### TAR (Compression - use '.tar.gz')
 
-> **. tar -zcvf <Path_to_File/file.tar.gz\> <files.txt\> <folders\>** ... *(The same for all commands: add **z**)*
+> **. tar -zcvf <file.tar.gz\> <files.txt\> <folders\>** ... *(The same for all commands: add **z**)*
 >
-> **. tar -zxvf <Path_to_File/file.tar.gz\> -C /location/** ... *(extract to the specified location)*
+> **. tar -zxvf <file.tar.gz\> -C /location/** ... *(extract to the specified location)*
 >
-> **. tar -tvf <Path_to_File/file.tar\>** ... *(or **tar.gz**. List the contents of the **.tar** or **.gz** file)*
+> **. tar -tvf <file.tar\>** ... *(or **tar.gz**. List the contents of the **.tar** or **.gz** file)*
 
 <br>
 
