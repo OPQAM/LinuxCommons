@@ -686,6 +686,7 @@ We'll need an RSA key.
 <br>
 
 #### Secure, passwordless connection
+-> This is necessary when we want to add commands in crontab where there are ssh connections. This makes it possible so that the admin doesn't have to provide password for the actions(!).
 
 > **. ssh-keygen -t rsa** ... *(creates the passwordless key)*
 >
