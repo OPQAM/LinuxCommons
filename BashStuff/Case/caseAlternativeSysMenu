@@ -1,0 +1,49 @@
+#!/bin/bash
+
+# Instead of using 'if' statements, we can use 'case':
+
+
+clear
+echo "
+Please Select:
+
+1. Display System Information
+2. Display Disk Space
+3. Display Home Space Utilization
+4. Display Current Power
+0. Quit
+"
+
+read -p "Enter Selection [0-4] > "
+
+case "$REPLY" in							# (1)
+	0)	echo "Program terminated."
+		exit
+		;;
+	1)	echo "Hostname: $HOSTNAME"
+		uptime
+		;;
+	2)	df -h
+		;;
+	3)	if [[ "$(id -u)" -eq 0 ]]; then
+			echo "Home Space Utilization (all users)"
+			du -sh /home/*
+		else
+			echo "Home Space Utilization ($USER)"
+			du -sh "$HOME"
+		fi
+		;;
+	4)	if [[ $REPLY == 4 ]]; then
+			acpi -V
+		fi
+		;;
+	*)	echo "Invalid entry" >&2
+		exit 1
+		;;
+esac
+
+# NOTES:
+#
+# (1) Similar to what was done elsewhere with if statements. See the 
+# 'sysInfoMenu' file, inside the 'WhileLoops' folder 
+#
