@@ -91,4 +91,16 @@ I'm instead redirecting information into log files (but might do without that al
 - For now the script is doing exactly what it's supposed to do. I'll edit it soon and post here (the non-Mint version, which is more involved)
 
 Addendum: actually, no. I just confirmed it. 'Seahorse' is loading my SSH key and loading it on startup. So that solves the whole issue. QED
+
 --snip--
+
+Thu 30 Nov 20:39:23 WET 2023
+
+- Having learned about *~/.bashrc*, *~/.bash_profile*, */etc/profile* and */etc/bashrc* I experimented with the possibility of running my script from, say *~/.bash_profile* instead of *~/.bashrc* where it actually is. The idea was to see if the script would run on my 'current' terminal and not lose both agent and key.
+
+- Unfortunately it is not so. I've just learned that when a script runs independently, it will always run in a subshell.
+
+- Since a subshell is a separate instance of the shell, it will inherit the environment of its parent shell, but it is in fact independent. So, any changes made on that shell will only afect that environment.
+
+--snip--
+
