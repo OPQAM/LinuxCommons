@@ -104,3 +104,20 @@ Thu 30 Nov 20:39:23 WET 2023
 
 --snip--
 
+Sun  3 Dec 20:57:46 WET 2023
+
+- Trying to see if I can discover the reason why my repos are, sometimes, being added to my homefolder.
+
+- Checking:
+
+Local *repo .git/hooks/*
+*git config --list* (command)
+*.git/config* (file)
+*env | grep GIT* (to check for environment variables that might be git-related)
+
+Also checked for permissions, possible symlinks and so on. Nothing seems to 'stick'.
+
+Testing: entering full path to git inside autoPull.sh
+
+Next possibility: enabling Git tracing on my script
+(GIT_TRACE=1 /path/to/script    OR inside the script -> export GIT_TRACE=1)
