@@ -1,8 +1,9 @@
 I really must check the issue with the agents auto-unloading on my Debian machines.
-It's also happening with the 'autoLoader' script.
+It's also happening with the 'autoLoader' script (explanation: I'm running autoPull.sh and it's loading the keys
++ agent and pulling the repositories successfully. Still, when I then check, the agent and keys aren't loaded
++ anymore).
 
-If called with ssh-add -l the agent is present. But if I run that again, it is gone.
-Must, must, must check the differences between Debian and Mint in this regard.
+Must check the differences between Debian and Mint in this regard.
 
 Wed  1 Nov 21:15:13 WET 2023
 
@@ -73,7 +74,7 @@ And so it was. Instead of running the script normally, I did source /autoPull.sh
 
 Sat Nov 18 12:27:09 PM WET 2023
 
-- It's at the same time a bit simples and more complicated.
+- It's at the same time a bit simple and more complicated.
 The reason why the Mint system is showing no issues has to do with Mint
 using some other process in order to load the key. I suspect that the
 agent is already automatically loading the keys at startup, and no more
