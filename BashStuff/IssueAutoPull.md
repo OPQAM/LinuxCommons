@@ -117,7 +117,24 @@ Local *repo .git/hooks/*
 
 Also checked for permissions, possible symlinks and so on. Nothing seems to 'stick'.
 
-Testing: entering full path to git inside autoPull.sh
-
 Next possibility: enabling Git tracing on my script
 (GIT_TRACE=1 /path/to/script    OR inside the script -> export GIT_TRACE=1)
+
+- Added echo statements before and after the pull in the script.
+
+- Testing: added files to repo on github and watched the behavior:
+test1 (file) - failed
+- file is added to root (homefolder), if I *git status* the folder, it warns that there are files missing. If I *git restore .*, the file gets added. It still stays in the homefolder.
+
+- Testing: adding the full path to the git command in autoPull.sh
+test2 (file) - failed (program even froze AFTER downloading the file)
+- Testing: adding -C to specify destination folder:
+/usr/bin/git -C /home/opqam... pull origin master
+test3 (file)
+
+(Idea for test: specifically change into the correct directory before running git (in the script)) 
+
+- Issue solved. Indeed, by using */usr/bin/git -C /home/opqam/PROJECTS/Documentation/ pull origin master*, I made sure that the files are being sent to the correct place, instead of the homefolder.
+
+--snip--
+
