@@ -1,0 +1,26 @@
+#!/bin/bash
+
+read -n 1 -p "Type a character > "					 #(1)
+echo
+case "$REPLY" in
+	[[:upper:]])	echo "'$REPLY' is upper case." ;;
+	[[:lower:]])	echo "'$REPLY' is lower case." ;;		 #(2) 
+	[[:alpha:]])	echo "'$REPLY' is alphabetic." ;;		 #(3)
+	[[:digit:]])	echo "'$REPLY' is a digit." ;;
+	[[:graph:]])	echo "'$REPLY' is a visible character." ;;
+	[[:punct:]])	echo "'$REPLY' is a punctuation symbol." ;;
+	[[:space:]])	echo "'$REPLY' is a whitespace character." ;;
+	[[:xdigit:]])	echo "'$REPLY' is a hexadecimal digit." ;;
+esac
+
+#NOTES:
+#
+# (1) read -n 1  --> takes 1 digit and automatically runs with it.
+# Meaning that 1 digit is entered and the system moves on, taking 
+# that value (we don't have to press Enter).
+#
+# (2), (3) Notice a possible issue. The letter 'a' is both a lower case
+# letter but also alphabetic. This scrip will run line by line, so 'a'
+# will return as lower case alone.
+#
+# See case_multiple_actions_v2 for a more 'modern' alternative. 
