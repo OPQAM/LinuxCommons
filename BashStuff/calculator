@@ -2,7 +2,7 @@
 
 
 version=1.4
-stopping="no"
+stopping="n"
 
 echo "My calculator Version: $version"
 
@@ -28,7 +28,7 @@ then
 fi
 
 # The calculator
-while [ "$stopping" != "yes" ] && [ "$stopping" != "y"  ]        # (2)
+while [ "$stopping" != "y" ]        # (2)
 do
 	echo "Enter number 1:"
 	read varX
@@ -39,7 +39,8 @@ do
 	fi
 
 	echo "Enter operation (+,-,*,/):"
-	read operation
+	read -n 1 operation
+	echo ""
 
 	case "$operation" in                                     # (4)
 		"+" | "-" | "*" | "/" ) ;;
@@ -67,7 +68,8 @@ do
 	echo "Result: $result"
 
 	echo "Do you wish to leave?"
-	read stopping
+	read -n 1 stopping
+	echo ""
 done
 
 
@@ -75,6 +77,9 @@ echo "Thank you. I hope you had fun!"
 
 
 # NOTES:
+#
+# (0) Changed the program so that it doesn't require the user to press 'Enter'
+# when picking the operator or when chosing to leave or keep using the program
 #
 # (1) I had to send the output of 'command' to /dev/null, or it would be
 #     outputed onto the terminal
