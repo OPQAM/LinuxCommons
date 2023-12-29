@@ -1190,6 +1190,8 @@ NOTE: our newly created webpage has been created by root, and thus we can't send
 chown -R myUser:myUser /home/myUser/webpage                   ('-R' for all content as well)
 
 
+
+NOTA: a pasta de imagens tem que estar ABAIXO da pasta de ficheiros (i.e index.html)!!!
 ...
 
 UserDir (part of Apache notes - wip) - enabling user-specific directories
