@@ -1188,3 +1188,30 @@ Now we can access with the browser:
 NOTE: our newly created webpage has been created by root, and thus we can't send files through vsftpd. We need do:
 
 chown -R myUser:myUser /home/myUser/webpage                   ('-R' for all content as well)
+
+
+...
+
+UserDir (part of Apache notes - wip) - enabling user-specific directories
+
+It will read, as a website as: .../~UserDirectory
+
+Go inside */etc/skel* and add a folder + file like */web/Index.html*
+
+- Since we're adding to the skel folder, this means that any new user will get this folder and file by default.
+
+. a2enmod userdir
+. vim /etc/apache2/mods-enable/userdir.conf
+
+Add the following:
+
+UserDir web             (since we're using the 'web' folder by default)
+Directory /home/*/web   (same)
+
+restart apache:
+systemctl restart apache2
+
+If using previous Debian versions, we're good to go. If using Debian 12, we still have to give executing permissions to the home folder:
+chmod +x /home/<homefolder>
+
+We can now test on another machine (<IP>/~username)
