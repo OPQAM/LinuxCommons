@@ -1217,3 +1217,40 @@ If using previous Debian versions, we're good to go. If using Debian 12, we stil
 chmod +x /home/<homefolder>
 
 We can now test on another machine (<IP>/~username)
+
+NOTA: a pasta de imagens tem que estar ABAIXO da pasta de ficheiros (i.e index.html)!!!
+...
+
+UserDir (part of Apache notes - wip) - enabling user-specific directories
+
+It will read, as a website as: .../~UserDirectory
+
+Go inside */etc/skel* and add a folder + file like */web/Index.html*
+
+- Since we're adding to the skel folder, this means that any new user will get this folder and file by default.
+
+. a2enmod userdir
+. vim /etc/apache2/mods-enable/userdir.conf
+
+Add the following:
+
+UserDir web             (since we're using the 'web' folder by default)
+Directory /home/*/web   (same)
+
+Dar restart ao a2ensite cartoons_ssl.conf
+
+!!
+
+DO NOT FORGET TO CHMOD +X to the user homefolder.......
+
+
+
+restart apache:
+systemctl restart apache2
+
+If using previous Debian versions, we're good to go. If using Debian 12, we still have to give executing permissions to the home folder:
+chmod +x /home/<homefolder>
+
+We can now test on another machine (<IP>/~username)
+
+RANDOM NOTES:
