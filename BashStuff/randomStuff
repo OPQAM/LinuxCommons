@@ -1,0 +1,7 @@
+#/bin/bash
+
+echo "What is your name?"
+
+read myName
+
+echo "Hello, $myName! You are, in fact, the user $(whoami). Welcome."
