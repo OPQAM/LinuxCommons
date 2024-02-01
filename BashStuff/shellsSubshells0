@@ -1,0 +1,17 @@
+#!/bin/bash
+
+cd /home/
+
+pwd
+
+
+# If we run this, we'll see that the subshell will tell us where it is right
+# before collapsing.
+# Then, when the program ends, we're back at our own shell, and (probably)
+# not in /home/
+#
+# We need, for example, a function, to actually move into that directory.
+#
+# Commands like echo, for example, simple write to stdout - so they just
+# write whatever we want on screen. Commands like 'cd' modify the state of
+# the shell **they're in.**
