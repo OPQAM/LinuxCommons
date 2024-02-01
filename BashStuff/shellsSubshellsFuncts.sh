@@ -1,5 +1,7 @@
 #!/bin/bash
 
+# IGNORE ALL BELOW - DOES NOT WORK
+
 # Using a function to change directory
 
 pro() {
