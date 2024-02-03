@@ -1,0 +1,13 @@
+#!/bin/bash
+
+# For this to run we have to do '. <filename>' or even
+# 'source <filename>'
+# This is related to the fact that the script will run in a 
+# subshell.
+# Otherwise, it just runs on another subshell, moves to the
+# relevant folder there and closes when the script finishes...
+
+
+cd /home/
+
+
