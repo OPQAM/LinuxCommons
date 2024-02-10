@@ -1,0 +1,21 @@
+#!/bin/bash
+
+FOLDER="$1"
+
+if [ -z "$FOLDER" ]; then                                     # (1)
+       echo "Usage: ./folderCounter <folder_path>"
+else       
+	COUNTER=$(ls -l "$FOLDER" | cut -c1 | grep d | wc -l) # (2)
+
+echo "Number of folders in $FOLDER: $COUNTER"
+fi
+
+
+
+# NOTES:
+#
+# (1) -z <Variable> is checking if the variable is empty
+#
+# (2) cut -c1 is outputing the first column that is the result of ls
+#     grep d is searching only for entries with 'd' or directories
+#     wc -l is doing a word count
