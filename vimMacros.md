@@ -20,6 +20,13 @@ Remember that we can check our macros with:
 
 :reg
 
+Or even print our register's contents with:
+
+. "mp
+
+Note that, if we check our register m we'll see a text command.
+It does follows that if we write a text command on vim and save that into a register, we can then use that as a macro.
+ 
 --snip--
 
 Let's say, we want to go through a list of numbers and edit them accordingly like this:
@@ -46,15 +53,15 @@ Do the changes (add the parenthesis, the plus and minuses) and move to next line
 We can now go to the first line we want to change
 . @m                 (apply macro)
 
+We can apply the same macro again with:
+. @@
+
 We can also just apply to the whole line, of course. Make x be the number of lines you want to change:
 . x@m                (will apply the macro to x lines)
 
 Practice (makes perfect)
 
-00351992345670
-00351969114567
-00351969100356
-00351990024235
+(+351)99-234-56-70
 00351988857332
 00351919779203
 00351992345670
