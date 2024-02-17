@@ -1,0 +1,54 @@
+TEMPORÁRIO - PASSAR A LIMPO 
+
+Notas Samba:
+
+
+Aceder a recursos noutra máquina sem importar qual o OS.
+instalar samba
+
+aceder a partilha de nome xpto
+
+mkdir /grsip              <- na raiz por ex
+touch /grsip/file.txt
+vim /etc/samba/smb.conf
+
+no fim do ficheiro (deixar o resto para já):
+
+[xpto]                     <- o nome da partilha
+comment = pasta nova grsip0223                   <- visível para os clientes (cuidado com o que se escreve)
+path = /grsip
+guest ok = yes
+read only = no
+browsable = yes
+
+ir ao windows - file system
+
+Escrever lá em cima \\(ip da máquina linux)
+192.168.27.155
+
+
+Nota relativamente ao read only:
+
+De notar que se queremos ter permissões - estas são aplicáveis à pasta.
+
+Logo, temos que ir localmente à pasta e atribuir as permissões devidas: por exemplo chmod 777 /pasta
+
+Só aí teremos capacidade de escrever dentro da pasta, fazer alterações, etc.
+
+Se pusermos read only = no essas permissões passam a ser irrelevantes - já que teremos apenas 
+permissão para escrever.
+
+já agora: 'systemctl restart smbd'
+
+SAMBA com autenticação
+
+criar lista de utilizadores de samba que seja comum à da máquina linux
+
+pdbedit -L                  <- ver users samba
+
+smbpasswd -a <user>           <- tb dá para adicionar o root
+
+fechar explorador
+
+net use * /delete                    <- Para tentar libertar/cancelar ligações....
+
