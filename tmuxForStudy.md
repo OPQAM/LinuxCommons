@@ -51,7 +51,7 @@ _Navigate to the lower pane with the ncat manual page:_
 
 You now have two panes—one above, ready for your work, and one below, displaying the ncat manual page.
 
-![Here's the end result. We can now start working!](https://raw.githubusercontent.com/OPQAM/Documentation/master/tmuxTwoScreens.png)
+![Here's the end result. We can now start working!](img/tmuxTwoScreens.png)
 
 Practical Use Case: SSH and SCP Learning.
 
