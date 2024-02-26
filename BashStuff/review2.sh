@@ -2,6 +2,7 @@
 
 # Let's do arrays
 
+echo "Indexed arrays:"
 myFruit=("banana" "apple" "cherry" "orange")
 
 # Accessing the array I just created:
@@ -30,3 +31,16 @@ echo "Let's check our new array:"
 for i in "${myFruit[@]}"; do
 	echo "$i"
 done
+echo ""
+echo "Associative Arrays:"
+# Note that we can also use Associative arrays, also known as hash tables
+# or dictionaries. They allow us to use arbitrary strings as indices
+declare -A myAssocArray
+myAssocArray["dog"]="Tambi"
+myAssocArray["cat"]="Gata Crista"
+myAssocArray["color"]="Blue"
+
+# We can then access these elements using these keys
+echo "${myAssocArray["dog"]}"
+echo "${myAssocArray["cat"]}"
+echo "${myAssocArray["color"]}"
