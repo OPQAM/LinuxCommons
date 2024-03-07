@@ -982,7 +982,84 @@ Word of advice: use them both. And if that fails, you can [just do this](https:/
 
 NOTE: despite having given create mask = 0777 and directory mask = 0777 to a folder in samba, folders created in samba got 777, but files only had 766. There is something else not giving executable permissions to both group and others. I read that umask might work subtractively.. but upon doing 'umask' I got the result 022. So, one would likely expect 755, not 766. What could cause this?
 
+
+**ACEDER A PARTILHAS SAMBA SEM AUTENTICAÇÃO**
+
+Vamos assumir que temos uma partilha:
+
+[smb_share]
+   comment = partilha samba
+   path = /srv/samba/share
+   browseable = yes
+   read only = yes
+   guest ok = yes
+
+Temos que instalar o software cifs-utils:
+
+. apt install cifs-utils
+
+Para aceder à partilha, temos que montar, num outro servidor, uma pasta, com mount. 
+Podemos fazê-lo temporariamente, com fstab ou com autofs (vide mais abaixo em NFS).
+
+**Temp:**
+
+mount -t cifs -o guest //192.168.1.118/smb_share /mnt/teste
+
+**Partilha em fstab (/etc/fstab):**
+
+//192.168.1.118/smb_share 	/mnt/partilha_samba/	cifs	defaults,x-systemd.automount,guest
+
+**autofs:**
+
+(no ficheiro de configuração (ver abaixo)):
+
+samba		-fstype=cifs,username=guest,password=guest	://192.168.1.118/smb_share
+
+**ACEDER A PARTILHAS SAMBA COM AUTENTICAÇÃO**
+
+[smb_private]
+   comment = partilha samba
+   path = /srv/samba/private
+   browseable = yes
+   read only = yes
+   guest ok = no
+
+**Temp:**
+
+mount -t cifs -o //192.168.1.118/smb_private -o username=pedro,password=atec123 /mnt/smbprivate
+
+**Partilha em fstab (/etc/fstab):**
+
+//192.168.1.118/smb_private	/mnt/smbprivate	cifs	defaults,x-systemd.automount,username=pedro,password=atec123	0	0
+
+
+Como não é boa ideia ter passwords em plain text em /etc/fstab, vamos usar um ficheiro onde colocamos user e password, com
+permissões 600
+
+mkdir /media/samba
+echo "username=pedro" > /media/samba/.smbcredentials
+echo "password=atec123" >> /media/samba/.smbcredentials
+chmod 600 /media/samba/.smbcredentials
+
+Agora, podemos repensar o nosso ficheiro de configuração /etc/fstab, apontando-o para o nosso ficheiro de acesso restrito:
+
+//192.168.1.118/smb_private	/mnt/smbprivate	cifs	defaults,x-systemd.automount,credentials=/media/samba/.smbcredentials	0	0
+
+
+**autofs:**
+
+(no ficheiro de configuração (ver abaixo)):
+
+...em plaintext:
+
+sambaprivate		-fstype=cifs,username=pedro,password=atec123	://192.168.1.118/smb_private
+
+...se usarmos o ficheiro /media/samba/.sbmcredentials:
+
+sambaprivate		-fstype=cifs,credentials=/media/samba/.smbcredentials	://192.168.1.118/smb_private
+
 ---
+
 
 <br> 
 
@@ -1258,4 +1335,369 @@ chmod +x /home/<homefolder>
 
 We can now test on another machine (<IP>/~username)
 
-RANDOM NOTES:
+
+### NFS - Network File System
+
+---
+
+WIP - Really need to update this text
+
+Used to share folders over the web
+
+#### Installation
+
+. apt install nfs-kernel-server
+
+
+#### Configuration
+
+The folders that we're making available are set in /etc/exports.
+This is set up thusly:
+
+/filesystem/to/export client1([options]) client2([options])
+
+Exs:
+/NFS/partilha1 192.168.1.118(rw,sync,no_subtree_check)
+
+/NFS/partilha2 192.168.1.118(ro,sync,no_subtree_check)
+
+rw - read and write
+ro - read only
+sync - the NFS server replies to requests only after changes have been committed to permanent storage
+no_subtree_check - speeds up transfers by not verifying that a requested file is located in the exported subdirectory
+
+After these configurations we do:
+
+. systemctl restart nfs-kernel-server.service
+
+To know what we are sharing:
+
+. showmount -e
+
+If we want to know what is being shared, but we are in another machine, we have to point directly to the machine we're sharing:
+
+. showmount -e 192.168.1.118
+
+On the client side, we'll need to install the nfs-client in order to access those shared folders:
+
+.apt install nfs-common
+
+We can always check what shared folders we have in our system:
+
+. mount
+
+Every new shared folder will be added to this list.
+
+*Let's now mount the shared folders:*
+
+**We can do it temporarily and directly with a command:**
+
+. mount -t nfs 192.168.1.118:/NFS/partilha1 /mnt/partilha1/
+
+(obviously, we'll need to create the folder /mnt/partilha1/)
+
+Note:
+
+We'll only have access to this shared folder IF our NFS client has been added to the server in /etc/exports
+
+We can always unmount the folder, of course:
+
+. umount /mnt/partilha1
+
+**Mounting the shared folder with fstab:**
+
+*fstab is read at system boot and maps all the shared folders it holds. This can, in turn, slow down the machine by mapping folders that are seldomly used. We'll solve that issue later with autofs.*
+
+The configuration file is in /etc/fstab.
+And the format is:
+[file system] [mount point] [type] [options] [dump] [pass]
+
+In debian we need to add the option 'x-systemd.automount' due to service priority during booting. This way we are ensuring that the sharing will always be mapped when needed.
+
+So, let's configure our shared folder:
+
+192.168.1.118:/NFS/partilha1  /mnt/partilha1/  nfs   defaults,x-systemd.automount    0      0
+
+We can test this with the commands:
+
+. systemctl daemon-reload
+. automount -a        VERIFT()
+
+
+**Mounting through autofs:**
+
+. apt install autofs
+
+The file to configure is /etc/auto.master and it's configured thusly:
+
+[mount-point] [map-name] [options]
+
+Ex:
+
+/mnt         /etc/auto.myautomount     --timeout=120
+
+Notes: (VERIFY THE /mnt!!!1)
+
+
+O ficheiro myautomount vai ser criado (tem que começar por auto). Aqui são indicadas as pastas a ser mapeadas.
+O timeout indica quando acontece automaticamente o unmount após x segundos sem utilizar o folder.
+
+Let's check the /etc/auto.myautomount
+
+[mount-point][options][location]
+
+Exs:
+
+partilha1	-fstype=nfs		192.168.1.118:/NFS/partilha1
+partilha2	-fstype=nfs		192.168.1.118:/NFS/partilha2
+
+. systemctl restart autofs.service
+
+****************
+
+TO CHECK SAMBA SHARING SEE ABOVE
+
+****************
+
+#### CONTAINERS - Podman
+
+### Instalation
+
+. apt install podman
+
+### Configuration
+
+/etc/containers/registries.conf              (debian 12)
+
+Checking installed vesrsion:
+
+. podman -v
+
+No ficheiro de configuração:
+
+Alterar linha 21 para:
+
+# # An array...
+unqualified-search-registries = ["docker.io","quay.io"]
+
+We are establishing those two registries, by that order.
+
+**Podman commands:**
+
+. podman search               -> pesquisa uma imagem no registry. Se quisermos pesquisar as diferentes tags existentes
+                              adicionamos a opção **--list-tags**. Com a opção **--limit 3** limitamos os resultados
+                              a três imagens por registry. Com a opção **--no-trunc** a descrição de cada uma 
+                              das imagens não é truncada
+
+. podman pull                 -> faz o download de uma imagem para o computador local
+
+. podman run                  -> cria um novo container
+
+. podman inspect 	      -> verifica as definições de uma imagem ou de um container
+
+. podman exec 		      -> executa um comando num container em execução (sem estar no container propriamente dito)
+
+. podman stop		      -> pára a execução de um ou mais containers
+
+. podman kill 		      -> mata o processo inicial de um ou mais containers
+
+. podman start 	              -> inicia um ou mais containers
+
+. podman rm 		      -> remove um ou mais containers
+
+. podman rmi  		      -> remove uma ou mais imagens armazenadas localmente
+
+. podman ps 		      -> mostra os containers que estão em execução actualmente
+
+. podman ps -a		      -> mostra todos os containers, incuíndo os que estão criados mas não estão a ser executados
+
+. podman system prune 	      -> remove todos os containers e imagens que não estão a ser executados
+
+. podman --help | less 	      -> mostra a ajuda para os comandos podman
+
+. podman option --help | less -> mostra a ajuda para os comandos podman da option indicada (ex: podman
+              run --help)
+
+Ex. of creating an ubuntu image container:
+
+
+. podman search ubuntu --limit 3
+
+. podman pull docker.io/library/ubuntu           (one of the names in the list)
+
+Checking which images that are on our local machine, and from which we can create containers quickly
+
+. podman images
+
+
+**Opening the Container and running it:**
+
+. podman run -it docker.io/library/ubuntu:latest
+
+The first time we connect, we need to exit and leave the container running. We can't just 'exit', we need to:
+
+. [ctrl+p] and [ctrl+q]
+
+Note: if we use the option -d when opening the container then the container will always be running in the background
+even if we exit. (d = detach). -it is for 'interactive' and 'pseudo tty'.
+
+If we don't like the name that the container has, we can change it:
+
+. podman run -dt --name nome_container docker.io/library/ubuntu
+
+Remember that we'll be using podman exec, not run to run the container after it's been created and running(!)
+
+
+-----
+
+
+Web application container:
+
+(ter apache2 instalado)
+
+- sacar container apache:
+
+. podman pull docker.io/ubuntu/apache2
+
+Inspecionar imagem, para ver versão do OS e software instalado, data de criação da imagem e portas expostas
+
+. podman inspect docker.io/ubuntu/apache2:latest | less
+
+(Exposed ports: ver portas expostas)
+
+-> Ao criar o container indicamos encaminhamento das portas - ideal acima de 1024 (users não root não podem indicar mais baixo)
+
+-> Ver portas abertas no nosso sistema com lsof:
+
+. lsof -i -P -n | grep -i listen
+
+Usamos 'podman -p' para indicar a porta:
+
+. podman run -d -p 8080:80 --name apache2-container docker.io/ubuntu/apache2:latest
+
+Ver info do container criado:
+
+. podman ps
+
+Ver ip que foi atribuído:
+
+. podman inspect apache2-container | grep -i address
+
+-> Conseguimos pingar agora, na nossa máquina ou noutros containers, este container
+
+Ver portas a ser usadas no nosso sistema:
+
+. lsof -l -P -n | grep -i listen
+
+Verificar apache2 no container, usando ip da máquina e porta:
+
+(browser) 10.4.39.139:8080
+
+Testar outro ficheiro, criando-o na nossa máquina e copiando-o para o container(!):
+
+. echo Container-apache2 - teste > index2.html
+
+. podman cp index2.html apache2-container:/var/www/html/
+
+
+Podemos testar na máquina host, com curl:
+
+. curl 10.88.0.2/index2.html            (direct container connection)
+
+. curl localhost:8080/index2.html       (connecting through localhost)
+
+
+**Web app multi-container**
+
+-> criar app web em dois containers diferentes. Num temos a base de dados (mysql) e, na outra temos os ficheiros da página, usando um servidor apache+php
+
+. podman search mysql --limit 4
+
+. podman pull docker.io/library/mysql
+
+(o container mysql será backend, com mapeamento para a porta default de mysql e o outro será o frontend. Password e user de acesso + password de root do mysql)
+
+. podman run -d --name backend-db -p 3306:3306 -e MYSQL_USER=user1 -e MYSQL_PASSWORD=123+qwe -e MYSQL_DATABASE=containerdb -e MYSQL_ROOT_PASSWORD=root_pass docker.io/library/mysql:latest
+
+. podman logs backend-db
+
+(agora, p/ o frontend precisamos de um container com apache e php)
+
+. podman pull php:8.2-apache
+
+(criar a frontend)
+
+. podman run -dt --name frontend-app -p 8080:80 php:8.2-apache
+
+Testar com ficheiro index.html (dentro de /var/www/html no container!)
+
+. podman exec -it frontend-app bash
+
+. echo teste container frontend-app > index.html
+. exit
+
+Testar num browser, com ip do OS nativo e a porta que encaminha para a porta 80 do container:
+
+(browser) 192.168.1.233:8080
+
+-> verificar definições da versão de php que está instalada no container:
+
+. cat phpinfo.php
+<?php
+phpinfo():
+?>
+
+. podman cp phpinfo.php frontend-app:/var/www/html/
+
+(browser) 192.168.1.233:8080/phpinfo.php
+
+Testar conexão do container frontend-app ao backend:
+
+. cat testdbcon.php
+
+<?php
+$servername = "10.88.0.2";
+$username = "user1";
+$password = "123+qwe";
+
+// Create connection
+$conn = new mysqli($servername, $username, $password);
+
+// Check connection
+if ($conn->connect_error) {
+  die("Connection failed: " . $conn->connect_error);
+}
+echo "Connected successfully";
+?>
+
+. podman cp testbdcon.php frontend-app:/var/www/html/
+
+
+-> se não existir a class mysqli temos de instalar a extensão necessária no php (mysqli):
+
+(testar no browser com este ficheiro na extensão...)
+
+entrar no container e instalar a extensão:
+
+->docker-php-ext-install mysqli
+->docker-php-ext-enable mysqli
+->apachectl restart
+
+. /var/www/html# podman exec -it frontend-app bash
+
+. docker-php-ext-install mysqli
+
+. docker-php-ext-enable mysqli
+. apachectl restart
+
+(browser) 192.168.1.233:8080/testbdcon.php ou através de curl:
+
+. curl http://10.88.0.3/testdbcon.php
+
+Se a DB existir, podemos verificar valores atra´ves de ficheiro php:
+
+192.168.1.134:8080/list.php
+
+** Novo container com phpmyadmin (chekc pdf)
+
+------> Need to clean and make this look good <-------
