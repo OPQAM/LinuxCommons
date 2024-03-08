@@ -1,0 +1,42 @@
+I loved my grandfather very much.
+He helped me become the man I am today.
+He was a also a mighty prankster, and I like to believe I've inherited some of his humor and naughtiness.
+
+
+
+
+Do this in high spirits and with the intent to teach others.
+Be sure you are working in a closed, controlled and educational environment.
+
+**Important Steps:**
+
+**Step 0** - Teach a Linux class to students. Or a cybersec class with Linux machines
+
+**Step 1** - Usually give them good info on commands, or on how to check them (man pages, goodle, etc)
+
+**Step 2** - Teach a NFS (Networks File System) class. Have students share folders internally within the class.
+
+**Step 3** - Include the commands root_squash, no_root_squash and no_all_squash as options.
+
+**Step 4** - Without extra info, simply state that no_root_squash or no_all_squash are preferable
+
+**Step 5** - After they have set up and made available their folders, check to see who has no_root_squash
+
+**Step 6** - (Take advantage )[https://book.hacktricks.xyz/linux-hardening/privilege-escalation/nfs-no_root_squash-misconfiguration-pe]of that and escalate your privileges, connecting to their machine
+
+**Step 7** - Go to /etc/issues and create a nifty login message, informing that their OS has been hijacked and that they have to either find out why or do 20 pushups in class to get their systems back (deleting the machine and starting anew = 25 pushups, or just make sure a lot of changes were made that class, so that they'd have to restart all over)**Step 8** - For extra brownie points, change the message of the day at /etc/motd welcoming hem back to their paradise
+
+**Step 9** - Change the root's pass
+
+**Step 10** - Kick the other root user, forcing them to log in and read the message
+
+**Step 11** - Laugh manically and profit.
+
+**Step 12** - Teach your students not to trust manuals or commands blindly, to do their own research and to understand why stuff works. Be curious, be driven and passionate, but be skeptic as well
+
+
+Again, the best advice in the world also applies here: don't be dumb. 
+Know your boundaries, and adapt to your environment and students.
+
+
+To my dad.
