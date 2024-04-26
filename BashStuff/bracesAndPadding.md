@@ -38,3 +38,4 @@ An alternative idea is to introduce dates. We can do that as well, and it might 
 . touch logfile{01..100}_\($(date +%Y-%m-%d_%Hh%Mm%Ss)\).md
 
 As an example, of course.
+
