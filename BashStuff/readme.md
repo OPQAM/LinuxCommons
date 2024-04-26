@@ -98,6 +98,6 @@ Addendum:
 I want to finish my current Linux book + systemd video and little tidbits like that.
 TODO: more Linux CTFs, the SysAdmin book (hopefully Santa will play nice this year), then I also have to
 finish soon Linux Essential and the Linux Journey site. Near future: some Cert.
->>>>>>> 4adf0b92418b60bcdb95d2e4567f59f7ce7e752b
 
 --snip--
+
