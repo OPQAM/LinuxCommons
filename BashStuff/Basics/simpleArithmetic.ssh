@@ -1,0 +1,10 @@
+#!/bin/bash
+
+num1=12
+num2=-22
+
+num3=$((num1 + num2))
+
+echo "This is 1: $num1."
+echo "This is 2: $num2."
+echo "This is $num1 + $num2 = $num3."
