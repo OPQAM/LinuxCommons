@@ -28,3 +28,24 @@ Whatever you are typing at the time: your name, a recipy, a password, etc, will 
 I think you can circumvent this by installing and scripting xdotool, to lock the terminal, but that is looking like too much for now. xtrlock or xflock4 would also lock the entire screen, but that's also too much.
 
 --snip--
+
+**Addendum:**
+
+Oh, yeah! Right. I forgot that I started this whole poking cron thing by asking myself the question: could I echo into my current terminal. And the answer was yes.
+
+I can do that easily with something like:
+
+0 * * * * /root/stretchNow.sh > /dev/pts/0
+
+This requires only that I learn what is my current terminal. We can do that with:
+
+. tty
+
+And then we can edit the cron job to our liking.
+
+Note, though, that this is rather dirty, and that we will require to press enter to exit the shell command, otherwise it will expect input.
+
+This also brings its own slew of problems. For example, you can be at the time of the job happily writing on a file, or doing something else that will not play well with having a message echoed into the screen.
+
+Remember that this is poking at stuff and having fun. Not to be used in general. 
+
