@@ -21,11 +21,11 @@ do
 	   [ "$d" -ne 1 ] && [ "$d" -ne 0 ]; then
 	
 		echo "Enter only valid numbers."
-	
-        elif [ "$a" -eq 0 ] && \
-             [ "$b" -eq 0 ] && \
-             [ "$c" -eq 0 ] && \
-	     [ "$d" -eq 0 ]; then
+
+	elif [ "$a" -eq 0 ] && \
+		 [ "$b" -eq 0 ] && \
+		 [ "$c" -eq 0 ] && \
+		 [ "$d" -eq 0 ]; then
 
 		echo "--$a$b$c$d--"
 		echo "We're done here."
@@ -35,19 +35,3 @@ do
 done
 
 # NOTE: again, pay attention to the '\' which allows for continuation
-# We can implement code, with regEx, in order to check if the input is not an integer - this way we can gracefully inform the user to input the correct values, instead of getting an automatic system error:
-
-# Check to see if the input is an integer
-#if ! [[ $a =~ ^[0-9]+$ ]] || \
-#       ! [[ $b =~ ^[0-9]+$ ]] || \
-#       ! [[ $c =~ ^[0-9]+$ ]] || \
-#       ! [[ $d =~ ^[0-9]+$ ]]; then
-#        echo "Enter only valid integer numbers."
-#        continue
-#    fi
-#
-# Convert inputs to integers
-#    a=$((10#$a))
-#    b=$((10#$b))
-#    c=$((10#$c))
-#    d=$((10#$d))	
